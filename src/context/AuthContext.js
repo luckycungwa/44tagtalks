@@ -16,7 +16,7 @@ export const AuthProvider = ({ children }) => {
     if (token && !user) {
       checkAuth(token);
     }
-  }, []);
+  }, [user]);
 
   const checkAuth = async (token) => {
     try {
@@ -28,6 +28,19 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       console.log('Authentication failed');
       localStorage.removeItem('token');
+      localStorage.removeItem('user');
+    }
+  };
+
+  const getCurrentUser = () => {
+    return user;
+  };
+
+  const updateUser = (newUser) => {
+    setUser(newUser);
+    if (newUser) {
+      localStorage.setItem('user', JSON.stringify(newUser));
+    } else {
       localStorage.removeItem('user');
     }
   };
@@ -52,14 +65,16 @@ export const AuthProvider = ({ children }) => {
   const register = async (username, email, password) => {
     setLoading(true);
     try {
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/auth/register`, { username, email, password });
-      setError(null);
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/auth/register`, {
+        username,
+        email,
+        password
+      });
+      return response.data;
+    } catch (error) {
+      throw error.response ? error.response.data : new Error('Registration failed');
+    } finally {
       setLoading(false);
-      return true;
-    } catch (err) {
-      setError(err.response?.data?.error || 'Registration failed');
-      setLoading(false);
-      return false;
     }
   };
 
@@ -77,7 +92,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, register, logout, error, loading }}>
+    <AuthContext.Provider value={{ user, updateUser, login, register, logout, getCurrentUser, error, loading }}>
       {children}
     </AuthContext.Provider>
   );

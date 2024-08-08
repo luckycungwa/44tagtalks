@@ -6,7 +6,6 @@ import Footer from "./components/Footer";
 import Navigationbar from "./components/Navigationbar";
 import ErrorBoundary from "./components/ErrorBoundary";
 
-
 // lazy loading pages (navigation)
 const Blog = lazy(() => import("./pages/Blog"));
 const Post = lazy(() => import("./pages/Post"));
@@ -21,28 +20,30 @@ const Contacts = lazy(() => import("./pages/Contacts"));
 function App() {
   return (
     <ErrorBoundary>
-    <AuthProvider>
-      <Router>
-        <Navigationbar />
+      <AuthProvider>
+        <Router>
+          <Navigationbar />
 
-        <div className="container mx-auto p-4">
-          <Suspense fallback={<div>Loading...</div>}></Suspense>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/blog" element={<Blog />} />
-            <Route path="/post/:id" element={<Post />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/profile" element={<UserProfile />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contacts />} />
+          <div className=" mx-auto p-4">
+            <Suspense fallback={<div className="flex justify-center items-center">Loading...</div>}>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/home" element={<Home />} />
+                <Route path="/blog" element={<Blog />} />
+                <Route path="/post/:slug" element={<Post />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/profile" element={<UserProfile />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/contacts" element={<Contacts />} />
 
-            <Route path="*" element={<div>404. Page not found</div>} />
-          </Routes>
-        </div>
-        <Footer />
-      </Router>
-    </AuthProvider>
+                <Route path="*" element={<div>404. Page not found</div>} />
+              </Routes>
+            </Suspense>
+          </div>
+          <Footer />
+        </Router>
+      </AuthProvider>
     </ErrorBoundary>
   );
 }

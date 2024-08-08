@@ -23,7 +23,6 @@ const Navigationbar = () => {
     "About",
     "Contacts",
     "FAQ",
-    "Help & Feedback",
   ];
 
   return (
