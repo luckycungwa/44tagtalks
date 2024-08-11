@@ -10,13 +10,13 @@ import {
 } from "@nextui-org/react";
 import CategoryChip from "./CategoryChip";
 
-const PostCard = ({ imageUrl, title, subtitle, date, category }) => {
+const PostCard2 = ({ imageUrl, title, subtitle, date,}) => {
   const handleReadMore = () => {
     console.log("read more");
   };
 
   return (
-    <Card className="pb-4 max-w-[270px] w-auto h-auto max-h-[270px]" isHoverable isPressable onClick={handleReadMore}>
+    <Card className="flex-row items-start w-auto max-h-[150px] max-w-[420px]" isHoverable isPressable onClick={handleReadMore}>
       <CardBody className="py-2">
         <Image
           alt="Card background"
@@ -25,16 +25,15 @@ const PostCard = ({ imageUrl, title, subtitle, date, category }) => {
           width={270}
         />
       </CardBody>
-      <CardHeader className="pb-0 pt-2 px-4 flex-col items-start justify-between flex-col">
+      <CardHeader className="pb-0 pt-2 px-4 flex-col items-start justify-between flex-col text-start">
         <h4 className="font-bold text-large">{title}</h4>
-        <p className="text-tiny uppercase font-bold">{subtitle}</p>
+        <p className="text-tiny uppercase truncate-text2">{subtitle}</p>
         <div className="flex justify-between w-full">
           <p className="text-tiny">{date}</p>
-          <CategoryChip title={category || "Uncategorized"} />
         </div>
       </CardHeader>
     </Card>
   );
 };
 
-export default PostCard;
+export default PostCard2;

@@ -1,22 +1,10 @@
 import React, { useState } from "react";
-import {
-  Card,
-  CardHeader,
-  CardBody,
-  Input,
-  Button,
-  Checkbox,
-  Link,
-  Spacer,
-} from "@nextui-org/react";
+import { Card, CardHeader, CardBody, Input, Button, Checkbox, Link, Spacer } from "@nextui-org/react";
 import { useAuth } from "../context/AuthContext"; // Ensure this path is correct
-
-import { FiEyeOff, FiMail, FiUser } from "react-icons/fi";
-import { PiPassword } from "react-icons/pi";
 import { useNavigate } from "react-router-dom";
 
 const Register = () => {
-  const { register, error } = useAuth(); // Ensure register is destructured correctly
+  const { register } = useAuth(); // Ensure register is destructured correctly
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
@@ -25,15 +13,16 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if(!username || !email || !password) {
+    if (!username || !email || !password) {
       console.error("Please fill in all fields");
       return;
     }
-   
-    await register(username, email, password); // Call the register function
-    if (!error) {
-      console.log("Registration successful:", { username, email, password });
+
+    try {
+      await register(username, email, password);
       navigate('/login');
+    } catch (error) {
+      console.error("Registration failed:", error);
     }
   };
 
@@ -55,9 +44,6 @@ const Register = () => {
                 onChange={(e) => setUsername(e.target.value)}
                 required
                 size="sm"
-                startContent={
-                  <FiUser className="text-lg text-default-400 pointer-events-none flex-shrink-0" />
-                }
                 helperText="First and last name"
               />
               <Input
@@ -68,9 +54,6 @@ const Register = () => {
                 required
                 labelPlacement="outside"
                 size="sm"
-                startContent={
-                  <FiMail className="text-lg text-default-400 pointer-events-none flex-shrink-0" />
-                }
                 helperText="We'll never share your email"
               />
               <Input
@@ -81,20 +64,9 @@ const Register = () => {
                 required
                 labelPlacement="outside"
                 size="sm"
-                clearable
-                endContent={
-                  <FiEyeOff className="text-lg text-default-400 pointer-events-none flex-shrink-0" />
-                }
-                startContent={
-                  <PiPassword className="text-lg text-default-400 pointer-events-none flex-shrink-0" />
-                }
                 helperText="Must be at least 8 characters"
               />
-              <Checkbox
-                defaultSelected
-                size="sm"
-                className="text-primary text-xs"
-              >
+              <Checkbox defaultSelected size="sm" className="text-primary text-xs">
                 I agree to the{" "}
                 <Link href="#" className="text-primary text-xs">
                   Terms and Conditions

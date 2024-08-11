@@ -13,8 +13,11 @@ import FeaturedPosts from "../components/FeaturedPosts";
 import SuggestedPosts from "../components/SuggestedPosts";
 import CommentSection from "../components/CommentSection";
 import RichTextRenderer from "../components/RichTextRenderer";
+import LikeButton from "../components/LikeButton";
+import Subscription from "../components/Subscription";
+import FAQSection from "../components/FAQSection";
 
-const Post = () => {
+const Post = ({postId}) => {
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
@@ -69,19 +72,6 @@ const Post = () => {
     fetchCurrentUser();
   }, [slug]);
 
-  const handleLike = async () => {
-    if (!user) {
-      notify();
-      return;
-    }
-
-    try {
-      await likePost(post.id); // Ensure post.id is used
-      setLikes(likes + 1);
-    } catch (error) {
-      console.error("Error liking post:", error);
-    }
-  };
 
   const handleShare = () => {
     if (navigator.share) {
@@ -112,15 +102,15 @@ const Post = () => {
               className="w-full object-cover post-hero-img"
             />
           )}
-          <div className="post-hero-content flex flex-col justify-center items-center">
-            <p className="text-3xl font-bold text-white text-center">
+          <div className="post-hero-content flex flex-col justify-center items-center px-4 py-6">
+            <p className="text-2xl md:text-4xl font-bold text-white text-center py-4">
               {post.title}
             </p>
             <Divider />
           </div>
         </div>
 
-        <div className="md:grid md:grid-cols-12 flex flex-col text-start mt-16 px-5 lg:px-16 justify-between flex-col gap-16">
+        <div className="md:grid md:grid-cols-12 flex flex-col text-start md:mt-24 gap-16 px-4 md:px-0">
           <ToastContainer
             stacked
             position="top-center"
@@ -136,7 +126,7 @@ const Post = () => {
             limit={3}
             transition={Slide}
           />
-          <div className="w-auto mb-8 flex flex-col w-1/2 lg:w-full col-span-12 md:col-span-8">
+          <div className="w-auto mb-8 flex flex-col items-start lg:w-full col-span-12 md:col-span-6">
             <p className="text-xl font-bold my-4">{post.title}</p>
             {post.body ? (
               <RichTextRenderer content={post.body} />
@@ -144,21 +134,12 @@ const Post = () => {
               <p>No content available for this post.</p>
             )}
 
-            <div className="flex justify-between items-center mt-8">
+            <div className=" w-full flex justify-between items-center mt-8 ">
               <p>Written by: {post.author || "Anonymous"}</p>
               
               <div className="flex gap-4 items-center my-4">
                 <Badge color="secondary" content={likes}>
-                  <Button
-                    size="sm"
-                    isIconOnly
-                    color="default"
-                    variant="faded"
-                    aria-label="Likes"
-                    onClick={handleLike}
-                  >
-                    <FiHeart size={16} />
-                  </Button>
+                  <LikeButton postId={post.id} />
                 </Badge>
 
                 <Badge color="secondary" content={comments.length}>
@@ -187,19 +168,23 @@ const Post = () => {
             </div>
 
             <Divider />
-            <CommentSection
-              user={user}
-              comments={comments}
-              setComments={setComments}
-            />
+            <CommentSection postId={postId} />
           </div>
 
-          <div className="mb-8 w-auto flex flex-col col-span-12 lg:col-span-4">
+          <div className=" flex mb-8 w-auto flex flex-col col-span-12 lg:col-span-4">
             <SuggestedPosts />
             <Divider />
           </div>
         </div>
         <FeaturedPosts />
+        <div>
+          <Divider />
+          <Subscription />
+        </div>
+        <div className="flex justify-center px-4 block-image mx-4 ">
+        <FAQSection />   
+        </div>
+       
       </div>
     </>
   );

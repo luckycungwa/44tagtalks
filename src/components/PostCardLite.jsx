@@ -6,8 +6,9 @@ import {
   Image,
   Button,
 } from "@nextui-org/react";
+import CategoryChip from "./CategoryChip";
 
-const PostCardLite = () => {
+const PostCardLite = ({category, title, date, imageUrl, onClick}) => {
   return (
     
       <Card
@@ -43,9 +44,7 @@ const PostCardLite = () => {
               </p>
             </div>
           </div>
-          <Button radius="full" size="sm">
-            Get App
-          </Button>
+          <CategoryChip title={category} />
         </CardFooter>
       </Card>
     

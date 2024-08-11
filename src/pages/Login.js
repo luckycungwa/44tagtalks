@@ -27,12 +27,9 @@ const Login = () => {
     e.preventDefault();
     const success = await login(email, password);
     if (success) {
-      console.log("User submitted:", { email, password });
       navigate('/');
-    }
-    else {
+    } else {
       console.error("Login failed");
-      console.error(error);
     }
   };
 

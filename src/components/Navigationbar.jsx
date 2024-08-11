@@ -32,8 +32,9 @@ const Navigationbar = () => {
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           className="sm:hidden"
         />
-        <NavbarBrand>
-          <p className="font-bold text-inherit uppercase">Untapped</p>
+        <NavbarBrand href="/">
+        <Link href="/" className="font-bold text-inherit uppercase">UNTAPPED</Link>
+    
         </NavbarBrand>
       </NavbarContent>
       

@@ -1,25 +1,49 @@
-import React from 'react';
-import PostCard from '../components/PostCard';
+import React, { useState, useEffect } from 'react';
+import { fetchPosts } from '../services/cms-api';
+import HeroSection from '../components/HeroSection';
+import Subscription from '../components/Subscription';
+import FeaturedPosts from '../components/FeaturedPosts';
+import RecentPosts from '../components/RecentPosts';
+import SuggestedPosts from '../components/SuggestedPosts';
+import { Divider } from '@nextui-org/react';
+import FAQSection from '../components/FAQSection';
 
-const Home = ({ category , ...props}) => {
+const Home = () => {
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    const loadPosts = async () => {
+      try {
+        const data = await fetchPosts();
+        console.log("Fetched posts:", data); // Add this
+        setPosts(data);
+      } catch (error) {
+        console.error("Error loading posts:", error);
+      }
+    };
+
+    loadPosts();
+  }, []);
+
   return (
-    <>
-    <div className='flex justify-center align-start flex-col gap-4 md:flex-row'>
-        <h1>Main Card Component</h1>
-
-        <PostCard
-          imageUrl="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80"
-          title="Card Title"
-          subtitle="Card Subtitle"
-          date={"2022-01-01"}
-          category={category}
-        />
-      
+    <div className="App">
+      <HeroSection />
+      <div className=" px-2 py-8">
+        <FeaturedPosts posts={posts} />
+        <RecentPosts />
+        <SuggestedPosts />
+        <div className='flex flex-col gap-4'>
+        <Divider />
+          <Subscription />
+          {/* set div with image background */}
+          <div className='md:block hidden block-image br-8'>
+           <FAQSection />   
+          </div>
+         
+        </div>
+         
+      </div>
     </div>
-
-
-    </>
-    
   );
 }
 

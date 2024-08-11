@@ -21,27 +21,12 @@ export const AuthProvider = ({ children }) => {
   const checkAuth = async (token) => {
     try {
       const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/auth/me`, {
-        headers: { Authorization: `Bearer ${token}` }
+        headers: { Authorization: `Bearer ${token}` },
       });
       setUser(response.data.user);
-      localStorage.setItem('user', JSON.stringify(response.data.user));
     } catch (error) {
-      console.log('Authentication failed');
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-    }
-  };
-
-  const getCurrentUser = () => {
-    return user;
-  };
-
-  const updateUser = (newUser) => {
-    setUser(newUser);
-    if (newUser) {
-      localStorage.setItem('user', JSON.stringify(newUser));
-    } else {
-      localStorage.removeItem('user');
+      console.log('Token verification failed:', error);
+      logout();
     }
   };
 
@@ -68,7 +53,7 @@ export const AuthProvider = ({ children }) => {
       const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/auth/register`, {
         username,
         email,
-        password
+        password,
       });
       return response.data;
     } catch (error) {
@@ -78,21 +63,14 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const logout = async () => {
-    try {
-      await axios.post(`${process.env.REACT_APP_API_URL}/api/auth/logout`);
-      setUser(null);
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-      return true;
-    } catch (err) {
-      setError('Logout failed');
-      return false;
-    }
+  const logout = () => {
+    setUser(null);
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
   };
 
   return (
-    <AuthContext.Provider value={{ user, updateUser, login, register, logout, getCurrentUser, error, loading }}>
+    <AuthContext.Provider value={{ user, login, register, logout, loading, error }}>
       {children}
     </AuthContext.Provider>
   );

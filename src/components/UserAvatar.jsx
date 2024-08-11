@@ -24,12 +24,10 @@ const UserAvatar = () => {
 
   const handleLogout = async () => {
     try {
-      await logout();
-      console.log("Logout successful");
+      await logout(); // Call the logout function from AuthContext
       navigate("/login");
     } catch (error) {
       console.error("Logout error:", error);
-      alert("Logout failed. Please try again.");
     }
   };
 

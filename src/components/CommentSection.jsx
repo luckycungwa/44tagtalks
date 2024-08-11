@@ -1,152 +1,61 @@
-import React, { useState, useEffect } from "react";
-import {
-  Button,
-  Textarea,
-  Card,
-  CardHeader,
-  CardBody,
-  Divider,
-  User,
-  CardFooter,
-} from "@nextui-org/react";
-import { BsFillReplyAllFill } from "react-icons/bs";
-import { FiArrowRight } from "react-icons/fi";
-import { commentOnPost, getComments } from "../services/interactionService";
-import { useParams } from "react-router-dom";
-import { Slide, ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import React, { useState, useEffect } from 'react';
+import { useAuth } from '../context/AuthContext';
+import axios from 'axios';
+import { Button, Textarea } from '@nextui-org/react';
 
-const CommentSection = ({ user, comments, setComments }) => {
-  const [newComment, setNewComment] = useState("");
-  const { id } = useParams();
+const CommentSection = ({ postId }) => {
+  const { user } = useAuth();
+  const [comments, setComments] = useState([]);
+  const [commentText, setCommentText] = useState('');
 
-  const notify = () => {
-    toast.warning(
-      <p className="text-sm">Please login to comment on this post</p>
-    );
-  };
+  useEffect(() => {
+    const fetchComments = async () => {
+      try {
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/posts/${postId}/comments`);
+        setComments(response.data);
+      } catch (error) {
+        console.error('Error fetching comments:', error);
+      }
+    };
 
-  const handleSubmitComment = async () => {
-    if (!user) {
-      notify();
-      return;
-    }
+    fetchComments();
+  }, [postId]);
 
-    if (newComment.length < 10) {
-      alert("The comment should be at least 10 characters long.");
-      return;
-    }
+  const handleCommentSubmit = async (e) => {
+    e.preventDefault();
+    if (!commentText) return;
 
     try {
-      const response = await commentOnPost(id, newComment);
-      setComments([...comments, response]);
-      setNewComment("");
+      await axios.post(`${process.env.REACT_APP_API_URL}/api/posts/${postId}/comments`, {
+        comment: commentText,
+      });
+      setCommentText('');
+      // Re-fetch comments after adding new one
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/posts/${postId}/comments`);
+      setComments(response.data);
     } catch (error) {
-      console.error("Error submitting comment:", error);
+      console.error('Error submitting comment:', error);
     }
   };
 
   return (
-    <>
-      <div className="my-8 w-auto flex flex-col">
-        <ToastContainer
-          stacked
-          position="top-center"
-          autoClose={4000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="light"
-          limit={3}
-          transition={Slide}
-        />
-        <p className="text-xl font-bold mb-2">Comments</p>
+    <div>
+      <h3>Comments</h3>
+      <form onSubmit={handleCommentSubmit}>
         <Textarea
-          value={newComment}
-          onChange={(e) => setNewComment(e.target.value)}
-          variant="bordered"
-          placeholder="Enter your comment"
+          type="text"
+          value={commentText}
+          onChange={(e) => setCommentText(e.target.value)}
+          placeholder="Add a comment..."
         />
-        <Button
-          size="sm"
-          color="secondary"
-          className="mt-4 flex"
-          auto
-          rounded
-          shadow
-          onClick={handleSubmitComment}
-        >
-          Post Comment
-        </Button>
-      </div>
-      <div>
-        <div className="my-4 flex flex-col gap 2">
-          {comments.map((comment) => (
-            <div>
-              <Card key={comment.id} className="my-2">
-                <CardHeader>
-                  <CardHeader className="flex gap-2 flex-row justify-between items-start">
-                    <User
-                      size="xs"
-                      name={comment.name}
-                      description={comment.text}
-                      avatarProps={{
-                        src: "https://api.dicebear.com/9.x/fun-emoji/svg",
-                      }}
-                      alt={`${comment.name}'s avatar`}
-                    />
-                    <Button
-                      isIconOnly
-                      color="secondary"
-                      variant="subtle"
-                      onClick={() => console.log("reply")}
-                    >
-                      <FiArrowRight size={12} />
-                    </Button>
-                  </CardHeader>
-                  <CardBody>{comment.text}</CardBody>
-                </CardHeader>
-                
-                <CardBody>
-                  {comment.replies && (
-                    <div className="flex flex-col gap-1 flex-row justify-between">
-                      {comment.replies.map((reply) => (
-                        <div key={reply.id}>
-                          <Card radius="">
-                            <CardHeader className="flex gap-3 flex-row justify-between">
-                              <User
-                                name={reply.name}
-                                description={reply.text}
-                                avatarProps={{
-                                  src: "https://api.dicebear.com/9.x/fun-emoji/svg?randomizeIds=true",
-                                }}
-                              />
-                              <Button
-                                isIconOnly
-                                color="secondary"
-                                variant="subtle"
-                                onClick={() => console.log("reply")}
-                              >
-                                <FiArrowRight size={12} />
-                              </Button>
-                            </CardHeader>
-                          </Card>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </CardBody>
-              </Card>
-            </div>
-          ))}
-        </div>
-        <Divider />
-      </div>
-    </>
+        <Button type="submit">Submit</Button>
+      </form>
+      <ul>
+        {comments.map((comment) => (
+          <li key={comment.id}>{comment.content}</li>
+        ))}
+      </ul>
+    </div>
   );
 };
 

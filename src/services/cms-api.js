@@ -4,9 +4,19 @@ import axios from 'axios';
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000/api'; // Match backend port
 
 
-export const fetchPosts = async () => {
-  const response = await axios.get(`${API_URL}/api/posts`); 
-  return response.data.docs;  //docs array of post
+export const fetchPosts = async (limit, where) => {
+  try {
+    const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/posts`, {
+       params: { "page[limit]": limit,
+              "page[where]": where,
+     },
+    });
+   
+    return response.data.docs; // Adjust based on your API response structure
+  } catch (error) {
+    console.error('Error fetching posts:', error); // Log the error
+    throw error; // Rethrow the error for further handling
+  }
 };
 
 // a bit troublesome function to fetch post by id

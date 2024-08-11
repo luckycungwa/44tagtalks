@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Chip } from '@nextui-org/react';
-import { getCategories } from '../services/api';
+import { getCategories } from "../services/cms-api";
 
 const CategoryFilter = () => {
     const [categories, setCategories] = useState([]);
@@ -19,7 +19,9 @@ const CategoryFilter = () => {
     
     const handleFilter = (categoryId) => {
         console.log("Filtered by:", categoryId);
-        // Implement filtering logic here
+        // filter by category
+        
+
     };
     
     return (

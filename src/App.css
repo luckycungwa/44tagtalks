@@ -34,10 +34,48 @@
   background-color: rgb(27, 27, 27);
   position: absolute;
   bottom: -10%;
+  /* padding: 1.5rem 2rem; */
 }
 .post-container {
   position: relative;
   width: 100%;
   height: 100%;
 }
+* {
+  box-sizing: border-box;
+  scrollbar-width: none;
+}
+
+.block-image {
+  background-image: url("/public/background.png");
+   /* url("https://lh3.googleusercontent.com/fL4qWNIEUvC-VK4kabRPwh6hIiYN1AM8LkLOUanfKWdr8XU6nj8iWyBjybRW2_ja-i23N2IwfCY3_kvMeEOhbKWRlshDOuz-rYsVSBLwxB2VvJtZyjid28pL1s2K6egVnG3OSwGP9ys9hdoMbRtucII"); */
+  background-color: #cccccc;
+  height: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 16px;
+}
+
+
+
+.truncate-text3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  /* white-space: nowrap; */
+  /* overflow: hidden; */
+  text-overflow: ellipsis;
+}
+
+.truncate-text2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  /* white-space: nowrap; */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  
+}
+
 
