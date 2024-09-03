@@ -11,7 +11,7 @@ const Searchbar = ({ onSearch }) => {
     try {
       const searchResults = await searchPosts(searchTerm);
       setResults(searchResults);
-      // Handle displaying results (e.g., update state in a parent component)
+      // Handle displaying results
     } catch (error) {
       console.error("Error searching posts:", error);
     }

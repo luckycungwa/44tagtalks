@@ -38,12 +38,34 @@ export const fetchPostBySlug = async (slug) => {
     if (!response.ok) {
       throw new Error(`Error fetching post: ${response.statusText}`);
     }
-    const data = await response.json();
-    console.log("Fetched post data:", data);
-    return data;
+    const postData = await response.json();
+    // Fetch media details if media is an array of IDs
+    if (postData.media && postData.media.length > 0) {
+      const mediaPromises = postData.media.map(mediaId => 
+        fetch(`${API_URL}/api/media/${mediaId}`) 
+          .then(res => res.json())
+      );
+      const mediaDetails = await Promise.all(mediaPromises);
+      postData.media = mediaDetails; // Replace media IDs with actual media objects
+    }
+    return postData;
   } catch (error) {
     console.error('Error fetching post by slug:', error);
     throw error;
+  }
+};
+
+// fetch Media by ID
+export const fetchMediaById = async (id) => {
+  try {
+    const response = await fetch(`${API_URL}/api/media/${id}`); // Adjust the endpoint as necessary
+    if (!response.ok) {
+      throw new Error(`Error fetching media: ${response.statusText}`);
+    }
+    return await response.json(); // Return the media object
+  } catch (error) {
+    console.error('Error fetching media by ID:', error);
+    throw error; // Rethrow for handling in the component
   }
 };
 

@@ -14,10 +14,10 @@ const PostCard = ({ imageUrl, title, subtitle, date, category, onClick }) => {
     <Card className="flex w-full h-auto flex-col text-left pb-2 w-auto h-auto flext-start" isHoverable isPressable onClick={onClick}>
       <CardBody className="h-36 min-h-36 max-h-48 flex w-full object-cover rounded-xl">
         <img
-          alt={title +" background cover"}
+          alt={`${title} background cover`}
           className="bg-gray-200 text-gray-400 flex justify-center align-center items-center w-full h-full object-cover rounded-xl text-tiny text-center "
           src={imageUrl || "https://assets.lummi.ai/assets/Qme2XFr9GsrJFzsKaHDQxgmXDK57HCJEvt3PuW4YJs9aKT?auto=format&w=1500"}
-          width={180}
+          // width={180}
         />
       </CardBody>
       <div className=" px-4 flex-col items-start justify-between flex w-full h-full">

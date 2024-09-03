@@ -33,7 +33,7 @@ const PostCardLite = ({
       <CardBody className="bg-[#d4d4d4] h-40 min-h-48 max-h-50 flex w-full object-cover rounded-xl ">
         <Image
           removeWrapper
-          alt="Relaxing app background"
+          alt={title +" background cover"}
           className="z-0 flex w-full h-full object-cover"
           src={
             imageUrl ||

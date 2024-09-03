@@ -90,21 +90,6 @@ const Post = () => {
           ) : (
             <p>No content available for this post.</p>
           )}
-          {/* <div className="w-full flex justify-between items-center mt-8 ">
-            <p>Written by: {post.author || "Anonymous"}</p>
-            <div className="flex gap-4 items-center my-4">
-              <Badge color="secondary" content={likes}>
-               <LikeButton postId={post.id} />
-              </Badge>
-              <Badge color="secondary" content={post.comments.length}>
-                <CommentSection postId={post.id} />
-              </Badge>
-            </div>
-          </div> */}
-          {/* <Divider /> */}
-          {/* <p className="text-sm text-center text-gray-500 py-8">
-            Comment and like functions comming soon{" "}
-          </p> */}
           <div className="w-full flex justify-start flex-col text-start">
             <div className="flex gap-4 items-center my-4 flex-col">
               <div className="w-full justify-center flex-col items-center text-gray-400">

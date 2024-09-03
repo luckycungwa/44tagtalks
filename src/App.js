@@ -7,7 +7,7 @@ import { AuthProvider } from "./context/AuthContext";
 import Footer from "./components/Footer";
 import Navigationbar from "./components/Navigationbar";
 import ErrorBoundary from "./components/ErrorBoundary";
-import ProtectedRoute from "./components/ProtectedRoutes";
+// import ProtectedRoute from "./components/ProtectedRoutes";
 import Error404 from "./pages/Error404";
 
 // lazy loading pages (navigation)

@@ -23,7 +23,7 @@ const FeaturePostCard = ({ imageUrl, onClick, title, subtitle, date, category })
             alt="Card background"
             className="w-full h-full object-cover rounded-lg text-[#4d4d4d94] text-center text-tiny"
             src={ imageUrl || "https://assets.lummi.ai/assets/QmYCNnEiMk2Y4HzJaQ2n6gyNt27HCYuwBUCtBAKMcx7ZvW?auto=format&w=1500"}
-            fallbackSrc="https://assets.lummi.ai/assets/QmYCNnEiMk2Y4HzJaQ2n6gyNt27HCYuwBUCtBAKMcx7ZvW?auto=format&w=1500"
+          
           />
         </div>
         <div className="flex flex-col w-full justify-between h-full pl-3 gap-8">
