@@ -1,192 +1,114 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { fetchPostById, fetchPostBySlug } from "../services/cms-api";
-import { useAuth } from "../context/AuthContext";
-import { getComments, likePost } from "../services/interactionService";
-import { Divider, Button, Badge } from "@nextui-org/react";
-import { FiHeart, FiShare } from "react-icons/fi";
-import { BsChat } from "react-icons/bs";
-import { Slide, ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-
-import FeaturedPosts from "../components/FeaturedPosts";
-import SuggestedPosts from "../components/SuggestedPosts";
-import CommentSection from "../components/CommentSection";
+import { useParams } from "react-router-dom";
+import { fetchPostBySlug } from "../services/cms-api"; // Ensure this is imported
+import { Divider, Badge } from "@nextui-org/react";
 import RichTextRenderer from "../components/RichTextRenderer";
-import LikeButton from "../components/LikeButton";
+import CommentSection from "../components/CommentSection";
+import SuggestedPosts from "../components/SuggestedPosts";
+import FeaturedPosts from "../components/FeaturedPosts";
 import Subscription from "../components/Subscription";
 import FAQSection from "../components/FAQSection";
 
-const Post = ({postId}) => {
+const Post = () => {
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState(null);
   const [likes, setLikes] = useState(0);
-  const [comments, setComments] = useState([]);
-  const { slug } = useParams(); // Only use slug here
+  const { slug } = useParams(); // Use slug from URL
 
-  const { getCurrentUser } = useAuth();
-  const navigate = useNavigate();
-
-  const notify = () =>
-    toast.warning(<p className="text-sm">Please login to save this post</p>);
+  const API_URL = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     const fetchPost = async () => {
       try {
+        console.log("Fetching post with slug:", slug);
         const data = await fetchPostBySlug(slug);
-        console.log("Fetched post data:", data); // Log the fetched data
-        if (data) {
+        console.log("Full post data:", data);
+        console.log("Media data:", data.media);
+        if (data && data.id) {
           setPost(data);
           setLikes(data.likes || 0);
         } else {
-          toast.error("Post not found.");
+          console.error("Post not found:", data);
         }
       } catch (error) {
         console.error("Error fetching post:", error);
-        toast.error("Failed to load the post. Please try again later.");
       } finally {
         setLoading(false);
       }
     };
-
-    const fetchCurrentUser = async () => {
-      try {
-        const user = await getCurrentUser();
-        setUser(user);
-      } catch (error) {
-        console.error("Error fetching current user:", error);
-      }
-    };
-
-    const fetchComments = async () => {
-      try {
-        const data = await getComments(post.id); // Ensure post.id is available
-        setComments(data);
-      } catch (error) {
-        console.error("Error fetching comments:", error);
-      }
-    };
-
     fetchPost();
-    fetchCurrentUser();
   }, [slug]);
-
-
-  const handleShare = () => {
-    if (navigator.share) {
-      navigator
-        .share({
-          title: post.title,
-          text: post.briefDescription,
-          url: window.location.href,
-        })
-        .then(() => console.log("Post shared successfully"))
-        .catch((error) => console.error("Error sharing post:", error));
-    } else {
-      alert("Sharing is not supported on this browser.");
-    }
-  };
-
   if (loading) return <div>Loading...</div>;
   if (!post) return <div>Post not found</div>;
 
   return (
-    <>
-      <div className="w-full">
-        <div className="post-hero flex justify-center items-end ">
-          {post.media.length > 0 && (
-            <img
-              src={`http://localhost:3000/api/media/${post.media[0]}`}
-              alt={post.image?.alt || "Post Image"}
-              className="w-full object-cover post-hero-img"
-            />
-          )}
-          <div className="post-hero-content flex flex-col justify-center items-center px-4 py-6">
-            <p className="text-2xl md:text-4xl font-bold text-white text-center py-4">
-              {post.title}
-            </p>
-            <Divider />
-          </div>
-        </div>
-
-        <div className="md:grid md:grid-cols-12 flex flex-col text-start md:mt-24 gap-16 px-4 md:px-0">
-          <ToastContainer
-            stacked
-            position="top-center"
-            autoClose={4000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="light"
-            limit={3}
-            transition={Slide}
+    <div className="flex flex-col w-full gap-8">
+      {/* HERO SECTION */}
+      <div className="post-hero flex justify-center items-end ">
+        {post.media && post.media.length > 0 && post.media[0].url ? (
+          <img
+            src={
+              `${API_URL}${post.media[0].url}` ||
+              "https://assets.lummi.ai/assets/Qme2XFr9GsrJFzsKaHDQxgmXDK57HCJEvt3PuW4YJs9aKT?auto=format&w=1500"
+            }
+            alt={post.media[0].alt || post.title + " background cover"}
+            className="w-full object-cover post-hero-img text-white"
           />
-          <div className="w-auto mb-8 flex flex-col items-start lg:w-full col-span-12 md:col-span-6">
-            <p className="text-xl font-bold my-4">{post.title}</p>
-            {post.body ? (
-              <RichTextRenderer content={post.body} />
-            ) : (
-              <p>No content available for this post.</p>
-            )}
-
-            <div className=" w-full flex justify-between items-center mt-8 ">
-              <p>Written by: {post.author || "Anonymous"}</p>
-              
-              <div className="flex gap-4 items-center my-4">
-                <Badge color="secondary" content={likes}>
-                  <LikeButton postId={post.id} />
-                </Badge>
-
-                <Badge color="secondary" content={comments.length}>
-                  <Button
-                    size="sm"
-                    isIconOnly
-                    color="default"
-                    variant="faded"
-                    aria-label="comments"
-                  >
-                    <BsChat size={16} />
-                  </Button>
-                </Badge>
-
-                <Button
-                  size="sm"
-                  isIconOnly
-                  color="default"
-                  variant="faded"
-                  aria-label="share post"
-                  onClick={handleShare}
-                >
-                  <FiShare size={16} />
-                </Button>
-              </div>
-            </div>
-
-            <Divider />
-            <CommentSection postId={postId} />
-          </div>
-
-          <div className=" flex mb-8 w-auto flex flex-col col-span-12 lg:col-span-4">
-            <SuggestedPosts />
-            <Divider />
-          </div>
-        </div>
-        <FeaturedPosts />
-        <div>
+        ) : (
+          <img
+            src={
+              `${API_URL}${post.media[0].url}` ||
+              "https://assets.lummi.ai/assets/Qme2XFr9GsrJFzsKaHDQxgmXDK57HCJEvt3PuW4YJs9aKT?auto=format&w=1500"
+            }
+            alt={post.media[0].alt || post.title + " background cover"}
+            className="w-full object-cover post-hero-img"
+          />
+        )}
+        <div className="post-hero-content w-[90%] min-h-[30%] max-h-[40%] md:max-h-[80%] md:max-w-[84%] flex flex-col justify-center items-center px-4 py-6">
+          <p className="text-2xl md:text-4xl font-bold text-white text-center py-4">
+            {post.title}
+          </p>
           <Divider />
-          <Subscription />
         </div>
-        <div className="flex justify-center px-4 block-image mx-4 ">
-        <FAQSection />   
-        </div>
-       
       </div>
-    </>
+      <div className="mt-20 md:grid md:grid-cols-12 flex flex-col text-start md:mt-20 gap-4 md:gap-16 px-4 md:px-32">
+        <section className="w-auto mb-8 md:mx-4 flex flex-col items-center lg:w-full col-span-12 md:col-span-7">
+          <p className="text-xl font-bold my-4">{post.title}</p>
+          {post.body ? (
+            <RichTextRenderer content={post.body} />
+          ) : (
+            <p>No content available for this post.</p>
+          )}
+          {/* <div className="w-full flex justify-between items-center mt-8 ">
+            <p>Written by: {post.author || "Anonymous"}</p>
+            <div className="flex gap-4 items-center my-4">
+              <Badge color="secondary" content={likes}>
+               <LikeButton postId={post.id} />
+              </Badge>
+              <Badge color="secondary" content={post.comments.length}>
+                <CommentSection postId={post.id} />
+              </Badge>
+            </div>
+          </div> */}
+          <Divider />{" "}
+          <p className="text-sm text-center text-gray-500 py-8">
+            Comment and like functions comming soon{" "}
+          </p>
+          <Divider />
+          {/* <CommentSection postId={post.id} /> */}
+        </section>
+        <section className="w-auto mb-8 md:mx-4 flex flex-col items-center lg:w-full md:col-start-10 md:col-span-3">
+          <SuggestedPosts />
+        </section>
+      </div>
+
+      <Divider />
+      <FeaturedPosts />
+      <Divider />
+      <Subscription />
+      <Divider />
+      <FAQSection />
+    </div>
   );
 };
 

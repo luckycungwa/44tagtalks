@@ -1,9 +1,7 @@
 import React from 'react';
 import DOMPurify from 'dompurify';
 
-const RichTextRenderer = ({ content }) => {
-
-  const sanitizedContent = DOMPurify.sanitize(content);
+const RichTextRenderer = ({ content }) => { 
 
   const renderBlock = (block, index) => {
     if (block.type === 'ul') {
@@ -50,6 +48,8 @@ const RichTextRenderer = ({ content }) => {
           </a>
         );
       }
+
+      
 
       return element;
     });

@@ -7,25 +7,42 @@ import PostCardLite from "./PostCardLite";
 const SuggestedPosts = () => {
   const [posts, setPosts] = useState([]);
 
+  const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000/api';
+
   const navigate = useNavigate();
 
-//  fetch limited posts
+
+
+
   useEffect(() => {
     const loadPosts = async () => {
       try {
-        const data = await fetchPosts({ limit: 4 });
-        console.log("Fetched posts:", data);
-        setPosts(data);
+        const response = await fetchPosts({ limit: 6 }); // Adjust the limit as needed
+        console.log("Fetched suggested posts:", response);
+        // Check if response.docs exists and is an array
+        if (response && Array.isArray(response.docs)) {
+          setPosts(response.docs);
+        } else {
+          console.error("Unexpected response structure:", response);
+          setPosts([]);
+        }
       } catch (error) {
-        console.error("Error loading posts:", error);
+        console.error("Error loading suggested posts:", error);
+        setPosts([]);
       }
     };
 
     loadPosts();
   }, []);
 
+  // Render the component only if posts is an array
+  if (!Array.isArray(posts)) {
+    return null; // or return a loading indicator
+  }
+
+
   return (
-    <div className="py-4 flex-row gap-2 px-5 md:px-32">
+    <div className="flex flex-col py-4 px-4 flex-row gap-2 md:px-auto">
       <div className="flex flex-col gap-2 justify-center mb-4 ">
         <h1 className=" flex font-bold justify-between justify-center items-end">
           Suggested Posts{" "}
@@ -33,9 +50,16 @@ const SuggestedPosts = () => {
         <Divider />
       </div>
       {/* grid card display here */}
-      <div className="  flex flex-row gap-2 flex-wrap py-4 justify-start items-start">
-      {posts.map((post) => (
-          <PostCardLite />
+      <div className="flex flex-wrap gap-8  py-4 justify-start items-start">
+        {posts.map((post) => (
+          <PostCardLite
+            key={post.id}
+            imageUrl={`${API_URL}/${post.media[0].url}`}
+            title={post.title}
+            date={new Date(post.publishDate).toLocaleDateString()}
+            category={post.categories?.name || "Uncategorized"}
+            onClick={() => navigate(`/post/${post.id}`)}
+          />
         ))}
       </div>
     </div>

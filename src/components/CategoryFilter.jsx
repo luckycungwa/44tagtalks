@@ -7,15 +7,20 @@ const CategoryFilter = () => {
 
     useEffect(() => {
         const fetchCategories = async () => {
-            try {
-                const fetchedCategories = await getCategories();
-                setCategories([{ id: 'all', name: 'All' }, ...fetchedCategories.docs]);
-            } catch (error) {
-                console.error("Error fetching categories:", error);
+          try {
+            const fetchedCategories = await getCategories();
+            if (Array.isArray(fetchedCategories.docs)) {
+              setCategories([{ id: 'all', name: 'All' }, ...fetchedCategories.docs]);
+            } else {
+              console.error("Unexpected response structure:", fetchedCategories);
+              setCategories([]); // Handle unexpected structure
             }
+          } catch (error) {
+            console.error("Error fetching categories:", error);
+          }
         };
         fetchCategories();
-    }, []);
+      }, []);
     
     const handleFilter = (categoryId) => {
         console.log("Filtered by:", categoryId);

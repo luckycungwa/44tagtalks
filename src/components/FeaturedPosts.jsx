@@ -4,21 +4,34 @@ import { fetchPosts } from "../services/cms-api";
 import { useNavigate } from "react-router-dom";
 import { FiArrowUpRight } from "react-icons/fi";
 import { Divider } from "@nextui-org/react";
-import PostCard from "./PostCard";
 
 const FeaturedPosts = () => {
   const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const navigate = useNavigate();
+  const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000/api';
 
   useEffect(() => {
     const loadPosts = async () => {
       try {
-        const data = await fetchPosts({limit : 4, where : "featured = true"});
-        console.log("Fetched posts:", data);
-        setPosts(data);
+        setLoading(true);
+        const response = await fetchPosts({
+          limit: 6,
+          where: "featured = true",
+        });
+        console.log("Fetched featured posts:", response);
+        // Check if response.docs exists and is an array
+        if (response && Array.isArray(response.docs)) {
+          setPosts(response.docs);
+        } else {
+          console.error("Unexpected response structure:", response);
+          setPosts([]);
+        }
       } catch (error) {
         console.error("Error loading posts:", error);
+        setPosts([]);
       }
     };
 
@@ -29,39 +42,39 @@ const FeaturedPosts = () => {
     navigate("/blog");
   };
 
-
-
   return (
-   <>
-       <div className="py-4 flex-col gap-2 md:px-32 px-5">
-      <div className="flex flex-col gap-2 justify-center">
-        <h1 className="text-md flex font-bold justify-between justify-center items-end">
-          Featured Posts{" "}
-          <span
-            className="tracking-wider text-xs text-gray-500 flex gap-1"
-            onClick={handleViewMore}
-          >
-            View All <FiArrowUpRight size={16} />{" "}
-          </span>
-        </h1>
-        <Divider />
+    <>
+      <div className="py-4 flex-col gap-2 md:px-32 px-5">
+        <div className="flex flex-col gap-2 justify-center">
+          <h1 className="text-md flex font-bold justify-between justify-center items-end">
+            Featured Posts{" "}
+            <span
+              className="tracking-wider text-xs text-gray-500 flex gap-1 cursor-pointer"
+              onClick={handleViewMore}
+            >
+              View All <FiArrowUpRight size={16} />{" "}
+            </span>
+          </h1>
+          <Divider />
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 sm:grid-cols-2 flex flex-row gap-4 flex-wrap py-4 justify-center items-start">
+          {posts.map((post) => (
+            <FeaturePostCard
+              key={post.id}
+              imageUrl={`${API_URL}/${post.media[0].url}`}
+              title={post.title}
+              date={new Date(post.publishDate).toLocaleDateString()}
+              category={
+                post.categories && post.categories.name
+                  ? post.categories.name
+                  : "Uncategorized"
+              }
+              onClick={() => navigate(`/post/${post.id}`)}
+            />
+          ))}
+        </div>
       </div>
-      {/* grid card display here */}
-      <div className="grid md:grid-cols-2 sm:grid-cols-2 flex flex-row gap-4 flex-wrap py-4 justify-center items-start">
-       {posts.map((post) => (
-         <FeaturePostCard
-         key={post.id}
-         id={post.id}
-         imageUrl={post.media[0]?.url || "https://via.placeholder.com/270"}
-         title={post.title}
-         date={new Date(post.publishDate).toLocaleDateString()}
-         category={post.categories?.name || "Uncategorized"}
-         onClick={() => navigate(`/post/${post.slug.replace(/^\/+/, '')}`)}
-       />
-       ))}
-      </div>
-    </div>
-   </>
+    </>
   );
 };
 

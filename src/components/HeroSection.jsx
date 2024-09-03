@@ -1,4 +1,4 @@
-import { Divider, Link } from "@nextui-org/react";
+import { Button, Divider, Link } from "@nextui-org/react";
 import React from "react";
 import { FiArrowRight } from "react-icons/fi";
 
@@ -20,7 +20,7 @@ const HeroSection = () => {
             <div className="relative rounded-full px-3 py-1 text-sm leading-6 text-gray-600 ring-1 ring-gray-900/10 hover:ring-gray-900/20">
             Join the conversation & let's inspire each other | {' '}
               <Link to="#" className="font-semibold text-indigo-600">
-                <span aria-hidden="true" className="absolute inset-0" />
+                <span aria-hidden="true" className="absolute inset-0 cursor-pointer" />
                 Share thoughts <span aria-hidden="true">&rarr;</span>
               </Link>
             </div>
@@ -34,12 +34,10 @@ const HeroSection = () => {
             </p>
            
             <div className="mt-10 flex items-center justify-center gap-x-6">
-              <Link to="/blog"
-                className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              >
+              <Button auto flat color="primary" href="/post/create">
                 Get Started
-              </Link>
-              <Link to="/about" className="text-sm font-semibold leading-6 text-gray-900 flex gap-2">
+              </Button>
+              <Link to="/about" className="text-sm font-semibold leading-6 radius-xs text-gray-900 flex gap-2  cursor-pointer">
                 Learn more <span aria-hidden="true"><FiArrowRight size={20}/></span>
               </Link>
             </div>

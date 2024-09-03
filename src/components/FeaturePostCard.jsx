@@ -22,11 +22,11 @@ const FeaturePostCard = ({ imageUrl, title, subtitle, date, category }) => {
           <Image
             alt="Card background"
             className="object-cover min-w-auto max-w-[120px] min-h-auto max-h-[120px] rounded-l-xl"
-            src="https://images.unsplash.com/photo-1528459801416-a9e53bbf4e17?q=80&w=1912&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+            src={imageUrl || "https://assets.lummi.ai/assets/QmYCNnEiMk2Y4HzJaQ2n6gyNt27HCYuwBUCtBAKMcx7ZvW?auto=format&w=1500"}
             width={320}
           />
         </div>
-        <div className="flex flex-col flex-wrap w-auto justify-between h-full w-auto pl-3 gap-8 md:gap-12">
+        <div className="flex flex-col flex-wrap w-auto justify-between h-full w-auto pl-3 gap-8 md:gap-8">
           <p className="font-bold truncate-text3">{title}</p>
           <p className="text-tiny text-default-400 bottom-0">{date}</p>
         </div>

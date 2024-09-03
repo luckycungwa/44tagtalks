@@ -1,21 +1,20 @@
 // This file is used to fetch data from the API
 import axios from 'axios';
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000/api'; // Match backend port
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000/'; // Match backend port
 
 
-export const fetchPosts = async (limit, where) => {
+export const fetchPosts = async (options = {}) => {
   try {
-    const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/posts`, {
-       params: { "page[limit]": limit,
-              "page[where]": where,
-     },
+    const response = await axios.get(`${API_URL}/api/posts`, {
+      params: options,
     });
-   
-    return response.data.docs; // Adjust based on your API response structure
+    
+    // The API returns the posts directly, no need to access .docs
+    return response.data;
   } catch (error) {
-    console.error('Error fetching posts:', error); // Log the error
-    throw error; // Rethrow the error for further handling
+    console.error('Error fetching posts:', error);
+    throw error;
   }
 };
 
@@ -35,12 +34,13 @@ export const fetchPostById = async (id) => {
 
 export const fetchPostBySlug = async (slug) => {
   try {
-    const response = await fetch(`${API_URL}/api/posts?slug=${slug}`);
+    const response = await fetch(`${API_URL}/api/posts/${slug}?depth=1`);
     if (!response.ok) {
       throw new Error(`Error fetching post: ${response.statusText}`);
     }
     const data = await response.json();
-    return data.docs[0]; // Assuming the API returns an array with the post object as the first element
+    console.log("Fetched post data:", data);
+    return data;
   } catch (error) {
     console.error('Error fetching post by slug:', error);
     throw error;
@@ -49,7 +49,7 @@ export const fetchPostBySlug = async (slug) => {
 
 export const getCategories = async () => {
   try {
-    const response = await axios.get(`${API_URL}/categories`);
+    const response = await axios.get(`${API_URL}/api/categories`);
     return response.data;
   } catch (error) {
     console.error('Error fetching categories:', error);

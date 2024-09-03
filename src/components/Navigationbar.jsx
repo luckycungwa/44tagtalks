@@ -17,13 +17,7 @@ const Navigationbar = () => {
   const { user } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
-  const menuItems = [
-    "Home",
-    "Blog",
-    "About",
-    "Contacts",
-    "FAQ",
-  ];
+  const menuItems = ["Home", "Blog", "About", "Contacts", "FAQ"];
 
   return (
     <Navbar onMenuOpenChange={setIsMenuOpen}>
@@ -33,11 +27,16 @@ const Navigationbar = () => {
           className="sm:hidden"
         />
         <NavbarBrand href="/">
-        <Link href="/" className="font-bold text-inherit uppercase">UNTAPPED</Link>
-    
+          <Link href="/" className="font-bold text-inherit">
+            <img
+              src="/logos/logo02.png"
+              alt="logo"
+              className="w-8 rounded-full text-tiny text-center"
+            />
+          </Link>
         </NavbarBrand>
       </NavbarContent>
-      
+
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
         {menuItems.map((item, index) => (
           <NavbarItem key={`${item}-${index}`}>
@@ -92,12 +91,7 @@ const Navigationbar = () => {
           </NavbarMenuItem>
         ) : (
           <NavbarMenuItem>
-            <Link
-              color="primary"
-              className="w-full"
-              href="/login"
-              size="lg"
-            >
+            <Link color="primary" className="w-full" href="/login" size="lg">
               Log In
             </Link>
           </NavbarMenuItem>

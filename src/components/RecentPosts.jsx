@@ -7,24 +7,36 @@ import { useNavigate } from "react-router-dom";
 
 const RecentPosts = () => {
   const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const navigate = useNavigate();
+  const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000/api';
 
-//   get limited posts
   useEffect(() => {
     const loadPosts = async () => {
       try {
-        const data = await fetchPosts({ limit: 9 });
-        console.log("Fetched posts:", data); 
-        setPosts(data);
+        setLoading(true);
+        const response = await fetchPosts({ limit: 9 }); // Adjust the limit as needed
+        console.log("Fetched recent posts:", response);
+        // Check if response.docs exists and is an array
+        if (response && Array.isArray(response.docs)) {
+          setPosts(response.docs);
+        } else {
+          console.error("Unexpected response structure:", response);
+          setPosts([]);
+        }
       } catch (error) {
-        console.error("Error loading posts:", error);
+        console.error("Error loading RECENT posts:", error);
+        setPosts([]);
       }
     };
 
     loadPosts();
   }, []);
 
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
   const handleViewBlog = () => {
     navigate("/blog");
   };
@@ -35,8 +47,9 @@ const RecentPosts = () => {
         <h1 className="text-md flex font-bold justify-between justify-center items-end">
           Recent Posts{" "}
           <span
-            className="tracking-wider text-xs text-gray-500 flex gap-1"
+            className="tracking-wider text-xs text-gray-500 flex gap-1 cursor-pointer"
             onClick={handleViewBlog}
+
           >
             View All <FiArrowUpRight size={16} />{" "}
           </span>
@@ -45,18 +58,23 @@ const RecentPosts = () => {
       </div>
       {/* grid card display here */}
       <div className="grid md:grid-cols-3 flex flex-row gap-4 flex-wrap py-4 justify-center items-center">
-        {posts.map((post) => (
+      {posts.length === 0 ? (
+        <p>No recent posts available.</p>
+      ) : (
+        posts.map((post) => (
           <PostCard
             key={post.id}
-            id={post.id}
-            imageUrl={post.media[0]?.url || "https://via.placeholder.com/270"}
+            imageUrl={`${API_URL}/${post.media[0].url}`}
             title={post.title}
-            subtitle={post.body.substring(0, 100) + "..."}
+            subtitle={post.body ? post.body.map((paragraph, index) => (
+              <span key={index}>{paragraph.children.map((child) => child.text).join('')}</span>
+            )) : "No content available for this post."}
             date={new Date(post.publishDate).toLocaleDateString()}
             category={post.category?.name || "Uncategorized"}
-            onClick={() => navigate(`/post/${post.slug.replace(/^\/+/, "")}`)}
+            onClick={() => navigate(`/post/${post.id}`)}
           />
-        ))}
+        ))
+      )}
       </div>
 
       <div className="flex justify-center">

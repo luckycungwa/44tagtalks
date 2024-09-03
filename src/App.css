@@ -27,9 +27,9 @@
 }
 .post-hero-content {
   position: relative;
-  width: 100%;
+  /* width: 100%;
   max-width: 90%;
-  height: 40%;
+  height: 40%; */
   overflow: hidden;
   background-color: rgb(27, 27, 27);
   position: absolute;
@@ -64,7 +64,7 @@
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   /* white-space: nowrap; */
-  /* overflow: hidden; */
+  overflow: hidden;
   text-overflow: ellipsis;
 }
 
