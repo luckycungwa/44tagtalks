@@ -23,10 +23,12 @@ const CategoryFilter = () => {
       }, []);
     
     const handleFilter = (categoryId) => {
+      
         console.log("Filtered by:", categoryId);
-        // filter by category
-        
 
+        // filter by categoies on seaxh eyc
+        
+        
     };
     
     return (

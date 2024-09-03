@@ -19,7 +19,7 @@ const PostCardLite = ({
 }) => {
   return (
     <Card
-      className="flex w-full md:w-full h-auto flex-col text-left pb-2 flext-start"
+      className="flex w-full md:w-80 md:h-48 h-auto flex-col text-left pb-2 flext-start"
       isHoverable
       isPressable
       onClick={onClick}

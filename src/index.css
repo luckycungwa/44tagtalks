@@ -2,16 +2,91 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
+html {
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  --cursor-color: #ff4b14;
+}
+
+@font-face {
+  font-family: 'Geist';
+  src: url('/public/fonts/Geist-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Geist';
+  src: url('/public/fonts/Geist-Bold.woff2') format('woff2');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Trap';
+  src: url('/public/fonts/Trap-Medium.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Trap-bold';
+  src: url('/public/fonts/Trap-Black.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Neue Machina Ultrabold */
+@font-face {
+  font-family: 'NeueMachina-Ultrabold';
+  src: url('/public/fonts/NeueMachina-Ultrabold.otf') format('opentype');
+  font-weight: 800; /* Ultrabold weight */
+  font-style: normal;
+}
+
+*, body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  scroll-behavior: smooth;
+  font-family: "Geist", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  font-family: "Trap", "Geist", sans-serif;
 }
+
+#logo {
+  font-family: "Trap", "Geist", sans-serif;
+  font-size: 1.5rem;
+}
+
+.logo-text {
+  font-family: "NeueMachina-Ultrabold", sans-serif;
+  font-weight: 800; /* Ultrabold weight */
+  font-style: normal;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+::-moz-selection {
+  color: #f2f2f2;
+  background: #ff4b14;
+}
+
+::selection {
+  color: #f2f2f2;
+  background: rgb(255, 75, 20);
+}
+
+/* discourage downloading images Washa! */
+img {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+

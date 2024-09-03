@@ -1,19 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { fetchPostBySlug } from "../services/cms-api"; // Ensure this is imported
-import { Divider, Badge } from "@nextui-org/react";
+import { Divider, Badge, Spinner } from "@nextui-org/react";
 import RichTextRenderer from "../components/RichTextRenderer";
-import CommentSection from "../components/CommentSection";
+// import CommentSection from "../components/CommentSection";
 import SuggestedPosts from "../components/SuggestedPosts";
 import FeaturedPosts from "../components/FeaturedPosts";
 import Subscription from "../components/Subscription";
 import FAQSection from "../components/FAQSection";
+import ShareBlog from "../components/ShareBlog";
 
 const Post = () => {
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
   const [likes, setLikes] = useState(0);
   const { slug } = useParams(); // Use slug from URL
+  const postUrl = "https://yourblog.com/post-slug";
+  const postTitle = { slug };
 
   const API_URL = process.env.REACT_APP_API_URL;
 
@@ -38,7 +41,12 @@ const Post = () => {
     };
     fetchPost();
   }, [slug]);
-  if (loading) return <div>Loading...</div>;
+  if (loading)
+    return (
+      <div className="w-full h-auto flex flex-col gap-2 justify-center items-center">
+        <Spinner color="default" />
+      </div>
+    );
   if (!post) return <div>Post not found</div>;
 
   return (
@@ -72,8 +80,11 @@ const Post = () => {
         </div>
       </div>
       <div className="mt-20 md:grid md:grid-cols-12 flex flex-col text-start md:mt-20 gap-4 md:gap-16 px-4 md:px-32">
-        <section className="w-auto mb-8 md:mx-4 flex flex-col items-center lg:w-full col-span-12 md:col-span-7">
-          <p className="text-xl font-bold my-4">{post.title}</p>
+        <section
+          className="w-auto mb-8 md:mx-4 flex flex-col items-start
+         lg:w-full col-span-12 md:col-span-7"
+        >
+          <p className="text-xl font-bold my-4 text-start">{post.title}</p>
           {post.body ? (
             <RichTextRenderer content={post.body} />
           ) : (
@@ -90,24 +101,43 @@ const Post = () => {
               </Badge>
             </div>
           </div> */}
-          <Divider />{" "}
-          <p className="text-sm text-center text-gray-500 py-8">
+          {/* <Divider /> */}
+          {/* <p className="text-sm text-center text-gray-500 py-8">
             Comment and like functions comming soon{" "}
-          </p>
+          </p> */}
+          <div className="w-full flex justify-start flex-col text-start">
+            <div className="flex gap-4 items-center my-4 flex-col">
+              <div className="w-full justify-center flex-col items-center text-gray-400">
+                <p className="flex justify-start items-start text-left text-sm ">
+                  Written by: {post.author || "Anonymous"}
+                </p>
+
+                <p className="flex justify-start items-start text-left text-sm text-gray-400">
+                {new Date(post.publishDate).toLocaleDateString()}
+                </p>
+              </div>
+            </div>
+            <Divider /> <ShareBlog url={postUrl} title={postTitle} />
+          </div>
           <Divider />
-          {/* <CommentSection postId={post.id} /> */}
         </section>
-        <section className="w-auto mb-8 md:mx-4 flex flex-col items-center lg:w-full md:col-start-10 md:col-span-3">
-          <SuggestedPosts />
+        <section className="w-auto mb-8 md:mx-4 flex flex-col items-center lg:w-full md:col-start-10 md:col-span-5">
+          <SuggestedPosts max={4} />
         </section>
       </div>
 
-      <Divider />
+      {/* <Divider /> */}
       <FeaturedPosts />
+
+      <section className="block-image2 text-white object-cover md:rounded-xl relative ">
+        <div className="w-full h-full absolute bottom-0 opacity-60 overflow-hidden" />
+
+        <Subscription />
+      </section>
       <Divider />
-      <Subscription />
-      <Divider />
-      <FAQSection />
+      <section className="flex flex-col gap-4 px-4">
+        <FAQSection />
+      </section>
     </div>
   );
 };

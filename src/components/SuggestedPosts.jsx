@@ -1,23 +1,22 @@
 import React, { useState, useEffect } from "react";
-import { Divider } from "@nextui-org/react";
+import { Divider, Spinner } from "@nextui-org/react";
 import { fetchPosts } from "../services/cms-api";
 import { useNavigate } from "react-router-dom";
 import PostCardLite from "./PostCardLite";
 
-const SuggestedPosts = () => {
+const SuggestedPosts = ({ max }) => {
   const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000/api';
+  const API_URL = process.env.REACT_APP_API_URL || "http://localhost:3000/api";
 
   const navigate = useNavigate();
-
-
-
 
   useEffect(() => {
     const loadPosts = async () => {
       try {
-        const response = await fetchPosts({ limit: 6 }); // Adjust the limit as needed
+        const response = await fetchPosts({ limit: max }); // Adjust the limit as needed
         console.log("Fetched suggested posts:", response);
         // Check if response.docs exists and is an array
         if (response && Array.isArray(response.docs)) {
@@ -37,12 +36,20 @@ const SuggestedPosts = () => {
 
   // Render the component only if posts is an array
   if (!Array.isArray(posts)) {
+    if (loading)
+      return (
+        <div className="w-full h-auto flex flex-col gap-2 justify-center items-center">
+          <Spinner color="default" />
+          Loading SuggestedRecent Posts...
+        </div>
+      );
+
     return null; // or return a loading indicator
   }
-
+  if (error) return <div>Error: {error}</div>;
 
   return (
-    <div className="flex flex-col py-4 px-4 flex-row gap-2 md:px-auto">
+    <div className="py-4 flex-col gap-2 px-5">
       <div className="flex flex-col gap-2 justify-center mb-4 ">
         <h1 className=" flex font-bold justify-between justify-center items-end">
           Suggested Posts{" "}
@@ -50,7 +57,7 @@ const SuggestedPosts = () => {
         <Divider />
       </div>
       {/* grid card display here */}
-      <div className="flex flex-wrap gap-8  py-4 justify-start items-start">
+      <div className="w-full flex gap-8 flex-wrap py-4 justify-around items-start">
         {posts.map((post) => (
           <PostCardLite
             key={post.id}

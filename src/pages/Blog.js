@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import { fetchPosts } from "../services/cms-api";
 import PostCard from "../components/PostCard";
 import { useNavigate } from "react-router-dom";
-import { Divider, Pagination } from "@nextui-org/react";
+import { Divider, Pagination, Spinner } from "@nextui-org/react";
 import Searchbar from "../components/Searchbar";
 import CategoryFilter from "../components/CategoryFilter";
 import Subscription from "../components/Subscription";
+import ScrollToTop from "../components/ScrollToTop";
 
 const Blog = () => {
   const [posts, setPosts] = useState([]);
@@ -16,7 +17,7 @@ const Blog = () => {
   const [postsPerPage] = useState(10);
   const navigate = useNavigate();
 
-  const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000/api';
+  const API_URL = process.env.REACT_APP_API_URL || "http://localhost:3000/api";
 
   useEffect(() => {
     const loadPosts = async () => {
@@ -44,7 +45,13 @@ const Blog = () => {
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading)
+    return (
+      <div className="w-full h-auto flex flex-col gap-2 justify-center items-center">
+        <Spinner color="default" />
+        Loading All Posts...
+      </div>
+    );
   if (error) return <p>{error}</p>;
 
   // Filter posts based on category
@@ -60,7 +67,7 @@ const Blog = () => {
         );
 
   return (
-    <div className="flex flex-col gap-2 md:px-32 lg:px-48 ">
+    <div className="flex flex-col gap-2 md:px-32 lg:px-48 bg-">
       <div className="flex flex-col gap-2 justify-center items-center ">
         <div className="flex flex-col gap-2 justify-center items-center my-8">
           <p className="text-2xl text-center font-bold uppercase mt-4">
@@ -77,26 +84,25 @@ const Blog = () => {
         <CategoryFilter onFilter={handleCategoryFilter} />
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 px-4">
-        {filteredPosts.length === 0 ? (
-          <p>No posts available.</p>
-        ) : (
-          filteredPosts.map((post) => (
-            <PostCard
-              key={post.id}
-              imageUrl={post.media && post.media[0] ? `${API_URL}${post.media[0].url}` : "image not found"}
-              title={post.title}
-              subtitle={post.body.map((paragraph) => (
-                <span key={paragraph.id}>
-                  {paragraph.children.map((child) => child.text).join("")}
-                </span>
-              ))}
-              date={new Date(post.publishDate).toLocaleDateString()}
-              category={post.categories[0]?.name || "Uncategorized"}
-              onClick={() => navigate(`/post/${post.id}`)}
-              // onClick={() => navigate(`/post/${post.slug.replace(/^\/+/, "")}`)} // Navigate using slug
-            />
-          ))
-        )}
+        {filteredPosts.map((post) => (
+          <PostCard
+            key={post.id}
+            imageUrl={
+              post.media && post.media[0]
+                ? `${API_URL}/${post.media[0].url}`
+                : "https://via.placeholder.com/150" // Fallback image
+            }
+            title={post.title}
+            subtitle={post.body.map((paragraph) => (
+              <span key={paragraph.id}>
+                {paragraph.children.map((child) => child.text).join("")}
+              </span>
+            ))}
+            date={new Date(post.publishDate).toLocaleDateString()}
+            category={post.categories?.name || "Uncategorized"}
+            onClick={() => navigate(`/post/${post.id}`)}
+          />
+        ))}
       </div>
       <div className="flex justify-center my-12">
         <Pagination
@@ -104,7 +110,13 @@ const Blog = () => {
           onChange={paginate}
         />
       </div>
-      <Subscription />
+
+      <section className="block-image2 text-white object-cover md:rounded-xl relative ">
+        <div className="w-full h-full absolute bottom-0 opacity-60 overflow-hidden" />
+
+        <Subscription />
+      </section>
+      <ScrollToTop />
     </div>
   );
 };

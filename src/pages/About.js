@@ -8,8 +8,8 @@ const About = () => {
             <div class="mt-6 max-w-6xl max-lg:max-w-3xl mx-auto bg-[#ffffff] rounded-lg">
             <div class="grid lg:grid-cols-2 items-center gap-14 sm:p-8 p-4 font-[sans-serif]">
                 <div>
-                    <h1 class="text-4xl font-bold">About The Blog</h1>
-                    <p class="text-sm text-#dcdcdc-300 mt-4 leading-relaxed">Untapped Point is a blog that focuses on the latest news and trends. We cover Topics around productivity, technology, design, and more.</p>
+                    <h1 class="text-4xl font-bold">About 44Tag Talks</h1>
+                    <p class="text-sm text-#dcdcdc-300 mt-4 leading-relaxed">44Tag Talks is blogging platform as part of the 44Tag Studios. We </p>
 
                     <ul class="mt-12 space-y-8">
                         <li class="flex items-center">

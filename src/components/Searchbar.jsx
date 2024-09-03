@@ -18,36 +18,17 @@ const Searchbar = ({ onSearch }) => {
   };
 
   return (
-    <div className="mt-4 w-full md:w-auto flex gap-2">
+    <div className=" w-full md:w-auto flex gap-2">
       <Input
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
         isClearable
         radius="lg"
-        classNames={{
-          input: [
-            "bg-transparent",
-            "text-black/90 dark:text-white/90",
-            "placeholder:text-default-700/50 dark:placeholder:text-white/60",
-          ],
-          innerWrapper: "bg-transparent",
-          inputWrapper: [
-            "shadow-xl",
-            "bg-default-200/50",
-            "dark:bg-default/60",
-            "backdrop-blur-xl",
-            "backdrop-saturate-200",
-            "hover:bg-default-200/70",
-            "dark:hover:bg-default/70",
-            "group-data-[focus=true]:bg-default-200/50",
-            "dark:group-data-[focus=true]:bg-default/60",
-            "!cursor-text",
-          ],
-        }}
+        
         placeholder="Search..."
         startContent={<FiSearch size={16} />}
       />
-      <Button color="primary" onClick={handleSearch} auto>
+      <Button  className=" bg-[#ff4b14] text-white font-bold tracking-wider capitalize" onClick={handleSearch} size="xs">
         Search
       </Button>
     </div>

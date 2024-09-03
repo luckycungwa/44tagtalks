@@ -54,9 +54,17 @@
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  border-radius: 16px;
+  /* border-radius: 16px; */
 }
-
+.block-image2 {
+  background-image:
+   url("https://assets.lummi.ai/assets/Qmb1dEehAVNYZRmbLixx2tvH5ZeBLLnStv8c9SVBXhLHSY?auto=format&w=1500");
+  /* background-color: #cccccc; */
+  height: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
 
 
 .truncate-text3 {

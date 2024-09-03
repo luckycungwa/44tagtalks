@@ -8,19 +8,17 @@ import { Divider } from "@nextui-org/react";
 const FeaturedPosts = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  // const [error, setError] = useState(null);
 
-  const navigate = useNavigate();
   const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000/api';
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     const loadPosts = async () => {
       try {
         setLoading(true);
-        const response = await fetchPosts({
-          limit: 6,
-          where: "featured = true",
-        });
+        const response = await fetchPosts({ limit: 6 }); // Adjust 
         console.log("Fetched featured posts:", response);
         // Check if response.docs exists and is an array
         if (response && Array.isArray(response.docs)) {
@@ -37,6 +35,11 @@ const FeaturedPosts = () => {
 
     loadPosts();
   }, []);
+
+    // Render the component only if posts is an array
+    if (!Array.isArray(posts)) {
+      return null; // or return a loading indicator
+    }
 
   const handleViewMore = () => {
     navigate("/blog");
@@ -64,11 +67,7 @@ const FeaturedPosts = () => {
               imageUrl={`${API_URL}/${post.media[0].url}`}
               title={post.title}
               date={new Date(post.publishDate).toLocaleDateString()}
-              category={
-                post.categories && post.categories.name
-                  ? post.categories.name
-                  : "Uncategorized"
-              }
+              category={post.categories?.name || "Uncategorized"}
               onClick={() => navigate(`/post/${post.id}`)}
             />
           ))}

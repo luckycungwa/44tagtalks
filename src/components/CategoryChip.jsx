@@ -4,7 +4,7 @@ import React from "react";
 const CategoryChip = ({ title }) => {
   return (
     <div>
-      <Chip color="warning" variant="bordered" size="sm">
+      <Chip  className="border-1 border-[#ff4b14d1] text-tiny text-[#ff4b14d1]" variant="dot" size="sm">
         {title}
       </Chip>
     </div>
