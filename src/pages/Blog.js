@@ -10,11 +10,12 @@ import ScrollToTop from "../components/ScrollToTop";
 
 const Blog = ({ onFilter }) => {
   const [posts, setPosts] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [selectedCategory, setSelectedCategory] = useState("all"); //filterd category sorting
+  const [filteredPosts, setFilteredPosts] = useState([]); // filtered/search results
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage] = useState(10);
+  const [postsPerPage] = useState(16);
   const navigate = useNavigate();
 
   const API_URL = process.env.REACT_APP_API_URL || "http://localhost:3000/api";
@@ -29,8 +30,10 @@ const Blog = ({ onFilter }) => {
         });
         if (Array.isArray(data.docs)) {
           setPosts(data.docs);
+          setFilteredPosts(data.docs); // Set initial filtered posts to all posts
         } else {
           setPosts([]); // Handle unexpected structure
+          setFilteredPosts([]); // Handle unexpected structure
         }
       } catch (err) {
         console.error("Error loading posts:", err);
@@ -41,6 +44,10 @@ const Blog = ({ onFilter }) => {
     };
     loadPosts();
   }, [currentPage, postsPerPage]);
+
+  const handleSearch = (results) => {
+    setFilteredPosts(results); // Update filtered posts with search results
+  };
 
   const getMediaUrl = async (mediaIds) => {
     const mediaPromises = mediaIds.map(id => fetchMediaById(id)); // Fetch media details for each ID
@@ -59,18 +66,24 @@ const Blog = ({ onFilter }) => {
     );
   if (error) return <p>{error}</p>;
 
+
+  // const filteredPosts =
+  // selectedCategory === "all"
+  //   ? posts //return all the posts
+  //   : posts.filter((post) => {
+  //       // Check if the post's category ID matches the selected category
+  //       return post.categories.id === selectedCategory;
+  //     });
+
   // Filter posts based on category
   const handleCategoryFilter = (categoryId) => {
     setSelectedCategory(categoryId);
+    if (categoryId === "all") {
+      setFilteredPosts(posts); // Show all posts if "All" is selected
+    } else {
+      setFilteredPosts(posts.filter((post) => post.categories.id === categoryId)); // Filter by selected category
+    }
   };
-
-  const filteredPosts =
-  selectedCategory === "all"
-    ? posts //return all the posts
-    : posts.filter((post) => {
-        // Check if the post's category ID matches the selected category
-        return post.categories.id === selectedCategory;
-      });
 
   return (
     <div className="flex flex-col gap-2 md:px-32 lg:px-48 bg-">
@@ -86,19 +99,14 @@ const Blog = ({ onFilter }) => {
         <Divider />
       </div>
       <div className="flex flex-row gap-4 flex-wrap justify-between lg:flex-row-reverse items-end px-4 py-8 gap-8">
-        <Searchbar />
+        <Searchbar onSearch={handleSearch} />
         <CategoryFilter onFilter={handleCategoryFilter} />
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 px-4">
-      {filteredPosts.map((post) => {
-        const mediaUrls = post.media && post.media.length > 0 
-        ? getMediaUrl(post.media.map(media => media.id)) // Extract IDs
-        : []; // Get media URLs
-
-        return (
+      {filteredPosts.map((post) => (
           <PostCard
           key={`${post.id}-${post.slug}`} // Use a unique combination of id and slug
-            imageUrl={mediaUrls[0] || "https://via.placeholder.com/300x200"} // Use the first media URL or fallback
+          imageUrl={`${API_URL}${post.media[0].url}`}
             title={post.title}
             subtitle={post.body.map((paragraph) => (
               <span key={paragraph.id}>
@@ -109,8 +117,7 @@ const Blog = ({ onFilter }) => {
             category={post.categories.name || "Uncategorized"}
             onClick={() => navigate(`/post/${post.id}`)}
           />
-        );
-      })}
+      ))}
       </div>
       <div className="flex justify-center my-12">
         <Pagination

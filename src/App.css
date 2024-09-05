@@ -13,7 +13,7 @@
   overflow: hidden;
 }
 .post-hero-img {
-  position: relative;
+  /* position: relative; */
   width: 100dvw;
   height: 100%;
 }
@@ -23,7 +23,7 @@
   width: 100dvw;
   height: 80dvh;
   /* overflow: hidden; */
-  background-color: rgb(23, 23, 23);
+  /* background-color: rgb(23, 23, 23); */
 }
 .post-hero-content {
   position: relative;
@@ -87,3 +87,45 @@
 }
 
 
+.rich-text-content h3 {
+  font-size: 1.5em;
+}
+
+.rich-text-content h4 {
+  font-size: 1.25em;
+}
+
+.rich-text-content ul, .rich-text-content ol {
+  margin-left: 1.5em;
+  margin-bottom: 1em;
+  list-style-type: disc;
+}
+
+.rich-text-content li {
+  margin-bottom: 0.4em;
+}
+
+/* chip styling for catregory: https */
+.active-chip {
+  background-color: #ff4b14d1; /* Active background color */
+  color: white; /* Active text color */
+}
+
+.inactive-chip {
+  background-color: transparent; /* Inactive background */
+  color: black; /* Inactive text color */
+}
+
+.hover-chip:hover {
+  border: 2px solid #9c3212d1; /* Hover border color */
+}
+
+/* glass effect */
+.glass {
+  background: rgba( 255, 255, 255, 0.25 );
+  box-shadow: 0 8px 32px 0 rgba(202, 202, 202, 0.37);
+  backdrop-filter: blur( 8px );
+  -webkit-backdrop-filter: blur( 4px );
+  border-radius: 10px;
+  border: 1px solid rgba( 255, 255, 255, 0.18 );
+}

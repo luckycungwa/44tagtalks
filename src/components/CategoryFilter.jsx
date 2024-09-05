@@ -4,6 +4,7 @@ import { getCategories } from "../services/cms-api";
 
 const CategoryFilter = ({ onFilter }) => {
   const [categories, setCategories] = useState([]);
+  const [activeCategory, setActiveCategory] = useState('all');
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -23,15 +24,21 @@ const CategoryFilter = ({ onFilter }) => {
   }, []);
 
   const handleFilter = (categoryId) => {
+    setActiveCategory(categoryId); // Update active category
     onFilter(categoryId); // Call onFilter with the selected category ID
   };
 
   return (
-    <div className='flex gap-2 flex-wrap justify-center font-light text-sm'>
+    <div className='flex gap-2 flex-wrap justify-center font-light text-sm '>
       {categories.map((category) => (
-        <Chip key={category.id} onClick={() => handleFilter(category.id)}>
-          {category.name}
-        </Chip>
+       <Chip
+       className={`hover:border-[#ff4b14d1] hover-pointer ${activeCategory === category.id ? 'bg-[#ff4b14d1] text-white' : 'bg-transparent text-black'}`} // Conditional classes
+       variant="shadow"
+       key={category.id}
+       onClick={() => handleFilter(category.id)}
+     >
+       {category.name}
+     </Chip>
       ))}
     </div>
   );

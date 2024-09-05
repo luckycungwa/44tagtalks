@@ -38,9 +38,9 @@ const SuggestedPosts = ({ max }) => {
   if (!Array.isArray(posts)) {
     if (loading)
       return (
-        <div className="w-full h-auto flex flex-col gap-2 justify-center items-center">
+        <div className="w-full h-full flex flex-col gap-2 justify-center items-center">
           <Spinner color="default" />
-          Loading SuggestedRecent Posts...
+          Loading Suggested Posts...
         </div>
       );
 
@@ -49,7 +49,7 @@ const SuggestedPosts = ({ max }) => {
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <div className="py-4 flex-col gap-2 px-5">
+    <div className="py-4 flex-col gap-2 px-4 w-full">
       <div className="flex flex-col gap-2 justify-center mb-4 ">
         <h1 className=" flex font-bold justify-between justify-center items-end">
           Suggested Posts{" "}
@@ -61,7 +61,7 @@ const SuggestedPosts = ({ max }) => {
         {posts.map((post) => (
           <PostCardLite
             key={post.id}
-            imageUrl={`${API_URL}/${post.media[0].url}`}
+            imageUrl={`${API_URL}${post.media[0].url}`}
             title={post.title}
             date={new Date(post.publishDate).toLocaleDateString()}
             category={post.categories?.name || "Uncategorized"}

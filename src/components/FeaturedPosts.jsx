@@ -64,7 +64,8 @@ const FeaturedPosts = () => {
           {posts.map((post) => (
             <FeaturePostCard
               key={post.id}
-              imageUrl={`${API_URL}/${post.media[0].url}`}
+              imageUrl={`${API_URL}${post.media[0].url}`}
+              
               title={post.title}
               date={new Date(post.publishDate).toLocaleDateString()}
               category={post.categories?.name || "Uncategorized"}

@@ -73,7 +73,7 @@ const RecentPosts = () => {
           posts.map((post) => (
             <PostCard
               key={post.id}
-              imageUrl={`${API_URL}/${post.media[0].url}`}
+              imageUrl={`${API_URL}${post.media[0].url}`}
               title={post.title}
               subtitle={
                 post.body

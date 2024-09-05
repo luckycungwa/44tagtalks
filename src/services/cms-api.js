@@ -79,9 +79,10 @@ export const getCategories = async () => {
   }
 };
 
+
 export const searchPosts = async (query) => {
   try {
-    const response = await axios.get(`${API_URL}/posts`, {
+    const response = await axios.get(`${API_URL}/api/posts/search`, { // Adjusted endpoint
       params: { search: query }
     });
     return response.data;
@@ -89,8 +90,7 @@ export const searchPosts = async (query) => {
     console.error('Error searching posts:', error);
     throw error;
   }
-};
-
+}
 
 
 export const getComments = async (postId) => {

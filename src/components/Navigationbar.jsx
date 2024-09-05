@@ -25,7 +25,7 @@ const Navigationbar = () => {
     
     { label: "Blog", link: "/blog" },
     { label: "About", link: "/about" },
-    { label: "Contact", link: "/contact" },
+    { label: "Contact", link: "/contacts" },
     { label: "FAQ", link: "/faq" },
   ];
 

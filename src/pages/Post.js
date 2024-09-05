@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { fetchPostBySlug } from "../services/cms-api"; // Ensure this is imported
 import { Divider, Badge, Spinner } from "@nextui-org/react";
 import RichTextRenderer from "../components/RichTextRenderer";
@@ -16,20 +16,22 @@ const Post = () => {
   const [likes, setLikes] = useState(0);
   const { slug } = useParams(); // Use slug from URL
   const postUrl = "https://yourblog.com/post-slug";
+  const location = useLocation();
   const postTitle = { slug };
 
   const API_URL = process.env.REACT_APP_API_URL;
 
+// Access the image URL from the location state
+const imageUrl = location.state?.imageUrl || "https://assets.lummi.ai/assets/QmTCes7Px7tTdhr5QacL7qPEywwB2onrNdM83dFqCCkyuV?auto=format&w=1500";
+
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        console.log("Fetching post with slug:", slug);
+        // console.log("Fetching post with slug:", slug);
         const data = await fetchPostBySlug(slug);
-        console.log("Full post data:", data);
-        console.log("Media data:", data.media);
         if (data && data.id) {
           setPost(data);
-          setLikes(data.likes || 0);
+          // setLikes(data.likes || 0);
         } else {
           console.error("Post not found:", data);
         }
@@ -41,6 +43,7 @@ const Post = () => {
     };
     fetchPost();
   }, [slug]);
+
   if (loading)
     return (
       <div className="w-full h-auto flex flex-col gap-2 justify-center items-center">
@@ -53,38 +56,32 @@ const Post = () => {
     <div className="flex flex-col w-full gap-8">
       {/* HERO SECTION */}
       <div className="post-hero flex justify-center items-end ">
-        {post.media && post.media.length > 0 && post.media[0].url ? (
+      {post.media && post.media.length > 0 ? (
           <img
-            src={
-              `${API_URL}${post.media[0].url}` ||
-              "https://assets.lummi.ai/assets/Qme2XFr9GsrJFzsKaHDQxgmXDK57HCJEvt3PuW4YJs9aKT?auto=format&w=1500"
-            }
+            src={imageUrl} // Use the media URL from the post
             alt={post.media[0].alt || post.title + " background cover"}
-            className="w-full object-cover post-hero-img text-white"
+            className="w-full object-cover post-hero-img"
           />
         ) : (
           <img
-            src={
-              `${API_URL}${post.media[0].url}` ||
-              "https://assets.lummi.ai/assets/Qme2XFr9GsrJFzsKaHDQxgmXDK57HCJEvt3PuW4YJs9aKT?auto=format&w=1500"
-            }
-            alt={post.media[0].alt || post.title + " background cover"}
+            src="https://assets.lummi.ai/assets/Qmc36vhvzVXLr7c2TvCYmxfm5qTSzUyR8EAfMfF776tDFk?auto=format&w=1500"
+            alt={post.title + " post background"}
             className="w-full object-cover post-hero-img"
           />
         )}
         <div className="post-hero-content w-[90%] min-h-[30%] max-h-[40%] md:max-h-[80%] md:max-w-[84%] flex flex-col justify-center items-center px-4 py-6">
-          <p className="text-2xl md:text-4xl font-bold text-white text-center py-4">
+          <p className="text-2xl md:text-4xl md:px-16 font-bold text-[#fafafa] text-center py-4 uppercase">
             {post.title}
           </p>
           <Divider />
         </div>
       </div>
-      <div className="mt-20 md:grid md:grid-cols-12 flex flex-col text-start md:mt-20 gap-4 md:gap-16 px-4 md:px-32">
+      <div className="mt-20 md:grid md:grid-cols-12 flex flex-col text-start md:mt-20 gap-4 md:gap-16 px-4 md:px-32 relative">
         <section
           className="w-auto mb-8 md:mx-4 flex flex-col items-start
          lg:w-full col-span-12 md:col-span-7"
         >
-          <p className="text-xl font-bold my-4 text-start">{post.title}</p>
+          {/* <p className="text-xl font-bold my-4 text-start">{post.title}</p> */}
           {post.body ? (
             <RichTextRenderer content={post.body} />
           ) : (
@@ -106,15 +103,17 @@ const Post = () => {
           </div>
           <Divider />
         </section>
-        <section className="w-auto mb-8 md:mx-4 flex flex-col items-center lg:w-full md:col-start-10 md:col-span-5">
-          <SuggestedPosts max={4} />
+        <section className="w-auto mb-8 md:mx-4 flex flex-col items-center lg:w-full md:col-start-10 md:col-span-5 sticky top-0">
+          <div className="sticky-container">
+            <SuggestedPosts max={4} />
+          </div>
         </section>
       </div>
 
       {/* <Divider /> */}
       <FeaturedPosts />
 
-      <section className="block-image2 text-white object-cover md:rounded-xl relative ">
+      <section className="block-image2 text-white object-cover lg:rounded-xl relative md:px-4">
         <div className="w-full h-full absolute bottom-0 opacity-60 overflow-hidden" />
 
         <Subscription />
