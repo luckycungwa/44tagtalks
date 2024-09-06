@@ -17,21 +17,25 @@ const Post = () => {
   const { slug } = useParams(); // Use slug from URL
   const postUrl = "https://yourblog.com/post-slug";
   const location = useLocation();
+  const passedImageUrl = location.state?.imageUrl;
   const postTitle = { slug };
 
   const API_URL = process.env.REACT_APP_API_URL;
 
+  /// Access the image URL from the location state
+
+
 // Access the image URL from the location state
-const imageUrl = location.state?.imageUrl || "https://assets.lummi.ai/assets/QmTCes7Px7tTdhr5QacL7qPEywwB2onrNdM83dFqCCkyuV?auto=format&w=1500";
+const imageUrl = passedImageUrl || (post?.media?.[0]?.url ? `${API_URL}${post.media[0].url}` : "fallback-url");
+
 
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        // console.log("Fetching post with slug:", slug);
         const data = await fetchPostBySlug(slug);
+        console.log("Fetched post data:", data); // log post data
         if (data && data.id) {
           setPost(data);
-          // setLikes(data.likes || 0);
         } else {
           console.error("Post not found:", data);
         }

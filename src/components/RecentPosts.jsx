@@ -86,14 +86,15 @@ const RecentPosts = () => {
               }
               date={new Date(post.publishDate).toLocaleDateString()}
               category={post.category?.name || "Uncategorized"}
-              onClick={() => navigate(`/post/${post.id}`)}
+              // onClick={() => navigate(`/post/${post.id}`)}
+              onClick={() => navigate(`/post/${post.id}`, { state: { imageUrl: `${API_URL}${post.media[0].url}` } })}
             />
           ))
         )}
       </div>
 
       <div className="flex justify-center my-4">
-        <Button onClick={handleViewBlog} className="px-9">
+        <Button onClick={handleViewBlog} className="bg-[#ff4b14] text-white w-auto">
           View All
         </Button>
       </div>

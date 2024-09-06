@@ -10,15 +10,14 @@ const FeaturedPosts = () => {
   const [loading, setLoading] = useState(true);
   // const [error, setError] = useState(null);
 
-  const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000/api';
+  const API_URL = process.env.REACT_APP_API_URL || "http://localhost:3000/api";
   const navigate = useNavigate();
-
 
   useEffect(() => {
     const loadPosts = async () => {
       try {
         setLoading(true);
-        const response = await fetchPosts({ limit: 6 }); // Adjust 
+        const response = await fetchPosts({ limit: 6 }); // Adjust
         console.log("Fetched featured posts:", response);
         // Check if response.docs exists and is an array
         if (response && Array.isArray(response.docs)) {
@@ -36,10 +35,10 @@ const FeaturedPosts = () => {
     loadPosts();
   }, []);
 
-    // Render the component only if posts is an array
-    if (!Array.isArray(posts)) {
-      return null; // or return a loading indicator
-    }
+  // Render the component only if posts is an array
+  if (!Array.isArray(posts)) {
+    return null; // or return a loading indicator
+  }
 
   const handleViewMore = () => {
     navigate("/blog");
@@ -61,17 +60,25 @@ const FeaturedPosts = () => {
           <Divider />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 sm:grid-cols-2 flex flex-row gap-4 flex-wrap py-4 justify-center items-start">
-          {posts.map((post) => (
-            <FeaturePostCard
-              key={post.id}
-              imageUrl={`${API_URL}${post.media[0].url}`}
-              
-              title={post.title}
-              date={new Date(post.publishDate).toLocaleDateString()}
-              category={post.categories?.name || "Uncategorized"}
-              onClick={() => navigate(`/post/${post.id}`)}
-            />
-          ))}
+          {posts.length === 0 ? (
+            <p>No featured posts available.</p>
+          ) : (
+            posts.map((post) => (
+              <FeaturePostCard
+                key={post.id}
+                imageUrl={`${API_URL}${post.media[0].url}`}
+                title={post.title}
+                date={new Date(post.publishDate).toLocaleDateString()}
+                category={post.categories?.name || "Uncategorized"}
+                // onClick={() => navigate(`/post/${post.id}`)}
+                onClick={() =>
+                  navigate(`/post/${post.id}`, {
+                    state: { imageUrl: `${API_URL}${post.media[0].url}` },
+                  })
+                }
+              />
+            ))
+          )}
         </div>
       </div>
     </>

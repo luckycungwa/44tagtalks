@@ -58,16 +58,21 @@ const SuggestedPosts = ({ max }) => {
       </div>
       {/* grid card display here */}
       <div className="w-full flex gap-8 flex-wrap py-4 justify-around items-start">
-        {posts.map((post) => (
+      {posts.length === 0 ? (
+          <p>No suggested posts available.</p>
+        ) : (posts.map((post) => (
           <PostCardLite
             key={post.id}
             imageUrl={`${API_URL}${post.media[0].url}`}
             title={post.title}
             date={new Date(post.publishDate).toLocaleDateString()}
             category={post.categories?.name || "Uncategorized"}
-            onClick={() => navigate(`/post/${post.id}`)}
+            // onClick={() => navigate(`/post/${post.id}`)}
+            onClick={() => navigate(`/post/${post.id}`, { state: { imageUrl: `${API_URL}${post.media[0].url}` } })}
           />
-        ))}
+        ))
+        )}
+        
       </div>
     </div>
   );

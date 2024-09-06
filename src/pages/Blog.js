@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { fetchPosts, fetchMediaById, fetchPostBySlug, fetchPostsByCategory } from "../services/cms-api";
+import {
+  fetchPosts,
+  fetchMediaById,
+  fetchPostBySlug,
+  fetchPostsByCategory,
+} from "../services/cms-api";
 import PostCard from "../components/PostCard";
 import { useNavigate } from "react-router-dom";
 import { Divider, Pagination, Spinner } from "@nextui-org/react";
@@ -7,6 +12,8 @@ import Searchbar from "../components/Searchbar";
 import CategoryFilter from "../components/CategoryFilter";
 import Subscription from "../components/Subscription";
 import ScrollToTop from "../components/ScrollToTop";
+import toast, { ToastBar } from "react-hot-toast";
+import Warning from "../components/Warning";
 
 const Blog = ({ onFilter }) => {
   const [posts, setPosts] = useState([]);
@@ -37,7 +44,11 @@ const Blog = ({ onFilter }) => {
         }
       } catch (err) {
         console.error("Error loading posts:", err);
-        setError("Failed to load posts");
+        setError(
+          <p className="text-default text-center h-full w-full py-16">
+            Network error. Please try again later.
+          </p>
+        );
       } finally {
         setLoading(false);
       }
@@ -49,13 +60,8 @@ const Blog = ({ onFilter }) => {
     setFilteredPosts(results); // Update filtered posts with search results
   };
 
-  const getMediaUrl = async (mediaIds) => {
-    const mediaPromises = mediaIds.map(id => fetchMediaById(id)); // Fetch media details for each ID
-    const mediaDetails = await Promise.all(mediaPromises);
-    return mediaDetails.map(media => `${API_URL}${media.url}`); // Construct URLs
-  };
-
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  
 
   if (loading)
     return (
@@ -65,7 +71,6 @@ const Blog = ({ onFilter }) => {
       </div>
     );
   if (error) return <p>{error}</p>;
-
 
   // const filteredPosts =
   // selectedCategory === "all"
@@ -81,12 +86,17 @@ const Blog = ({ onFilter }) => {
     if (categoryId === "all") {
       setFilteredPosts(posts); // Show all posts if "All" is selected
     } else {
-      setFilteredPosts(posts.filter((post) => post.categories.id === categoryId)); // Filter by selected category
+      setFilteredPosts(
+        posts.filter((post) => post.categories.id === categoryId)
+      ); // Filter by selected category
     }
   };
 
   return (
-    <div className="flex flex-col gap-2 md:px-32 lg:px-48 bg-">
+    <div className="flex flex-col gap-2 md:px-32 lg:px-48">
+      <ScrollToTop />
+      {/* failed to load posts warning || server is down/offline */}
+      <Warning error={error} />
       <div className="flex flex-col gap-2 justify-center items-center ">
         <div className="flex flex-col gap-2 justify-center items-center my-8">
           <p className="text-2xl text-center font-bold uppercase mt-4">
@@ -103,10 +113,10 @@ const Blog = ({ onFilter }) => {
         <CategoryFilter onFilter={handleCategoryFilter} />
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 px-4">
-      {filteredPosts.map((post) => (
+        {filteredPosts.map((post) => (
           <PostCard
-          key={`${post.id}-${post.slug}`} // Use a unique combination of id and slug
-          imageUrl={`${API_URL}${post.media[0].url}`}
+            key={`${post.id}-${post.slug}`} // Use a unique combination of id and slug
+            imageUrl={`${API_URL}${post.media[0].url}`}
             title={post.title}
             subtitle={post.body.map((paragraph) => (
               <span key={paragraph.id}>
@@ -115,9 +125,14 @@ const Blog = ({ onFilter }) => {
             ))}
             date={new Date(post.publishDate).toLocaleDateString()}
             category={post.categories.name || "Uncategorized"}
-            onClick={() => navigate(`/post/${post.id}`)}
+            // onClick={() => navigate(`/post/${post.id}`)}
+            onClick={() =>
+              navigate(`/post/${post.id}`, {
+                state: { imageUrl: `${API_URL}${post.media[0].url}` },
+              })
+            }
           />
-      ))}
+        ))}
       </div>
       <div className="flex justify-center my-12">
         <Pagination
