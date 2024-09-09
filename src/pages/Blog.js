@@ -61,7 +61,6 @@ const Blog = ({ onFilter }) => {
   };
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
-  
 
   if (loading)
     return (
@@ -72,13 +71,6 @@ const Blog = ({ onFilter }) => {
     );
   if (error) return <p>{error}</p>;
 
-  // const filteredPosts =
-  // selectedCategory === "all"
-  //   ? posts //return all the posts
-  //   : posts.filter((post) => {
-  //       // Check if the post's category ID matches the selected category
-  //       return post.categories.id === selectedCategory;
-  //     });
 
   // Filter posts based on category
   const handleCategoryFilter = (categoryId) => {
@@ -115,7 +107,9 @@ const Blog = ({ onFilter }) => {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 px-4">
         {filteredPosts.map((post) => (
           <PostCard
-            key={`${post.id}-${post.slug}`} // Use a unique combination of id and slug
+            key={`${post.id}-${post.slug}`} //combination of id and slug
+            id={post.id}
+            slug={post.slug}
             imageUrl={`${API_URL}${post.media[0].url}`}
             title={post.title}
             subtitle={post.body.map((paragraph) => (
@@ -125,9 +119,9 @@ const Blog = ({ onFilter }) => {
             ))}
             date={new Date(post.publishDate).toLocaleDateString()}
             category={post.categories.name || "Uncategorized"}
-            // onClick={() => navigate(`/post/${post.id}`)}
+            // onClick={() => navigate(`/post${post.slug}`)}
             onClick={() =>
-              navigate(`/post/${post.id}`, {
+              navigate(`/post/${post.id}${post.slug}`, {
                 state: { imageUrl: `${API_URL}${post.media[0].url}` },
               })
             }

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useParams } from "react-router-dom";
-import { fetchPostBySlug } from "../services/cms-api"; // Ensure this is imported
+import { fetchPostById, fetchPostBySlug } from "../services/cms-api"; // Ensure this is imported
 import { Divider, Badge, Spinner } from "@nextui-org/react";
 import RichTextRenderer from "../components/RichTextRenderer";
 // import CommentSection from "../components/CommentSection";
@@ -11,42 +11,50 @@ import FAQSection from "../components/FAQSection";
 import ShareBlog from "../components/ShareBlog";
 
 const Post = () => {
+  const { id, slug } = useParams();
+  // Fetch post data using id
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
   const [likes, setLikes] = useState(0);
-  const { slug } = useParams(); // Use slug from URL
-  const postUrl = "https://yourblog.com/post-slug";
+
+  const postUrl = "https://myblog.com/post-slug";
   const location = useLocation();
   const passedImageUrl = location.state?.imageUrl;
   const postTitle = { slug };
 
   const API_URL = process.env.REACT_APP_API_URL;
 
-  /// Access the image URL from the location state
+  // Access the image URL from the location state
+  const imageUrl =
+    passedImageUrl ||
+    (post?.media?.[0]?.url ? `${API_URL}${post.media[0].url}` : "fallback-url");
 
-
-// Access the image URL from the location state
-const imageUrl = passedImageUrl || (post?.media?.[0]?.url ? `${API_URL}${post.media[0].url}` : "fallback-url");
-
-
-  useEffect(() => {
-    const fetchPost = async () => {
-      try {
-        const data = await fetchPostBySlug(slug);
-        console.log("Fetched post data:", data); // log post data
-        if (data && data.id) {
+    useEffect(() => {
+      const fetchPost = async () => {
+        try {
+          const data = await fetchPostById(id);
+          console.log(`Fetched post slug: ${data.slug}`); // Log fetched post slug
+          console.log(`URL slug: ${slug}`); // Log slug from URL
+    
+          // Normalize both slugs by removing leading and trailing slashes
+          const normalizedFetchedSlug = data.slug.replace(/^\/|\/$/g, '');
+          const normalizedUrlSlug = slug.replace(/^\/|\/$/g, '');
+    
+          // Check if the normalized slugs match
+          if (normalizedFetchedSlug !== normalizedUrlSlug) {
+            throw new Error('Slug does not match the post ID');
+          }
+    
           setPost(data);
-        } else {
-          console.error("Post not found:", data);
+        } catch (error) {
+          console.error('Error fetching post:', error);
+        } finally {
+          setLoading(false);
         }
-      } catch (error) {
-        console.error("Error fetching post:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchPost();
-  }, [slug]);
+      };
+      fetchPost();
+    }, [id, slug]);
+
 
   if (loading)
     return (
@@ -54,13 +62,14 @@ const imageUrl = passedImageUrl || (post?.media?.[0]?.url ? `${API_URL}${post.me
         <Spinner color="default" />
       </div>
     );
-  if (!post) return <div>Post not found</div>;
+  if (!post)
+    return <div className="text-center text-default">Post not found!</div>;
 
   return (
     <div className="flex flex-col w-full gap-8">
       {/* HERO SECTION */}
       <div className="post-hero flex justify-center items-end ">
-      {post.media && post.media.length > 0 ? (
+        {post.media && post.media.length > 0 ? (
           <img
             src={imageUrl} // Use the media URL from the post
             alt={post.media[0].alt || post.title + " background cover"}
@@ -99,7 +108,7 @@ const imageUrl = passedImageUrl || (post?.media?.[0]?.url ? `${API_URL}${post.me
                 </p>
 
                 <p className="flex justify-start items-start text-left text-sm text-gray-400">
-                {new Date(post.publishDate).toLocaleDateString()}
+                  {new Date(post.publishDate).toLocaleDateString()}
                 </p>
               </div>
             </div>

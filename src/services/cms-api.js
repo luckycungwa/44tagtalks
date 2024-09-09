@@ -1,7 +1,7 @@
 // This file is used to fetch data from the API
 import axios from 'axios';
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000/'; // Match backend port
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000'; // Match backend port
 
 
 export const fetchPosts = async (options = {}) => {
@@ -32,23 +32,11 @@ export const fetchPostById = async (id) => {
   }
 };
 
+// Fetch post by slug
 export const fetchPostBySlug = async (slug) => {
   try {
-    const response = await fetch(`${API_URL}/api/posts/${slug}?depth=1`);
-    if (!response.ok) {
-      throw new Error(`Error fetching post: ${response.statusText}`);
-    }
-    const postData = await response.json();
-    // Fetch media details if media is an array of IDs
-    if (postData.media && postData.media.length > 0) {
-      const mediaPromises = postData.media.map(mediaId => 
-        fetch(`${API_URL}/api/media/${mediaId}`) 
-          .then(res => res.json())
-      );
-      const mediaDetails = await Promise.all(mediaPromises);
-      postData.media = mediaDetails; // Replace media IDs with actual media objects
-    }
-    return postData;
+    const response = await axios.get(`${API_URL}/api/posts/${slug}`);
+    return response.data; 
   } catch (error) {
     console.error('Error fetching post by slug:', error);
     throw error;

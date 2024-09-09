@@ -63,12 +63,14 @@ const SuggestedPosts = ({ max }) => {
         ) : (posts.map((post) => (
           <PostCardLite
             key={post.id}
+            id={post.id}
+            slug={post.slug}
             imageUrl={`${API_URL}${post.media[0].url}`}
             title={post.title}
             date={new Date(post.publishDate).toLocaleDateString()}
             category={post.categories?.name || "Uncategorized"}
-            // onClick={() => navigate(`/post/${post.id}`)}
-            onClick={() => navigate(`/post/${post.id}`, { state: { imageUrl: `${API_URL}${post.media[0].url}` } })}
+            // onClick={() => navigate(`/post${post.slug}`)}
+            onClick={() => navigate(`/post/${post.id}${post.slug}`, { state: { imageUrl: `${API_URL}${post.media[0].url}` } })}
           />
         ))
         )}

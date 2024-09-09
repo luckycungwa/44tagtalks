@@ -73,6 +73,8 @@ const RecentPosts = () => {
           posts.map((post) => (
             <PostCard
               key={post.id}
+              id={post.id}
+            slug={post.slug}
               imageUrl={`${API_URL}${post.media[0].url}`}
               title={post.title}
               subtitle={
@@ -86,8 +88,8 @@ const RecentPosts = () => {
               }
               date={new Date(post.publishDate).toLocaleDateString()}
               category={post.category?.name || "Uncategorized"}
-              // onClick={() => navigate(`/post/${post.id}`)}
-              onClick={() => navigate(`/post/${post.id}`, { state: { imageUrl: `${API_URL}${post.media[0].url}` } })}
+              // onClick={() => navigate(`/post${post.slug}`)}
+              onClick={() => navigate(`/post/${post.id}${post.slug}`, { state: { imageUrl: `${API_URL}${post.media[0].url}` } })}
             />
           ))
         )}
