@@ -32,8 +32,8 @@ const CategoryFilter = ({ onFilter }) => {
     <div className='flex gap-2 flex-wrap justify-center font-light text-sm '>
       {categories.map((category) => (
        <Chip
-       className={`hover:border-[#ff4b14d1] hover-pointer ${activeCategory === category.id ? 'bg-[#ff4b14d1] text-white' : 'bg-transparent text-black'}`} // Conditional classes
-       variant="shadow"
+       className={` hover:cursor-pointer hover:border-[#ff4b14d1] ${activeCategory === category.id ? 'bg-[#ff4b14d1] text-white' : 'bg-transparent text-black'}`} // Conditional classes
+       variant="bordered"
        key={category.id}
        onClick={() => handleFilter(category.id)}
      >

@@ -27,6 +27,7 @@ const Navigationbar = () => {
     { label: "About", link: "/about" },
     { label: "Contact", link: "/contacts" },
     { label: "FAQ", link: "/faq" },
+    { label: "Store", link: "store" },
   ];
 
   const handleNavigation = (link) => {

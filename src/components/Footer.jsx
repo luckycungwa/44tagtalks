@@ -12,7 +12,7 @@ const Footer = () => {
           <Link
             to="/"
             prefetch={false ? "true" : undefined}
-            className="text-xs hover:underline underline-offset-4"
+            className="text-xs hover:underline underline-offset-4 dark:text-gray-400"
           >
             Terms of Service
           </Link>

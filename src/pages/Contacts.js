@@ -130,8 +130,8 @@ const Contacts = () => {
             <div className="flex flex-col gap-4">
               <h1 className="text-3xl font-bold">Get In Touch</h1>
               <p className="font-light mb-4">
-                As a creative agency, 44Tag Studios thrives to deliver the best
-                graphic design related results for our clients. Connect & follow
+                44Tag Talks is a division of 44Tag studios and we thrives to deliver the best
+                quality content that will empower, inspire, entertain and of course educate. Connect & follow
                 us to keep up with our latest updates.
               </p>
             </div>

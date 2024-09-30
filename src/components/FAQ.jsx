@@ -3,57 +3,39 @@ import { Accordion, AccordionItem,} from "@nextui-org/react";
 
 const FAQ = () => {
   // FAQ data
-  const data = [
+  const faqContent = [
     {
-      title: "What services do you offer?",
-      content:
-        "We offer a comprehensive range of graphic design services, including logo design, flyer and brochure design, art cover design, brand identity development, and more.",
+      question: "What is 44Tag Talks about?",
+      answer: "44Tag Talks is a blog dedicated to graphic design, freelancing, and creative entrepreneurship. We provide insights, tips, tutorials, and industry news to help graphic designers and creative professionals grow their skills and businesses."
     },
     {
-      title: "How do you approach a design project?",
-      content:
-        "We believe in a collaborative approach. We'll start by understanding your brand, target audience, and goals. Then, we'll create initial concepts and work closely with you to refine them until they perfectly capture your vision.",
+      question: "How often do you publish new content?",
+      answer: "We aim to publish new articles at least twice a week. You can subscribe to our newsletter to get notified about new posts."
     },
     {
-      title: "Do you offer printing services?",
-      content:
-        "While we don't offer in-house printing, we can recommend reliable printers who can handle your printing needs.",
+      question: "Can I contribute to 44Tag Talks?",
+      answer: "Yes! We welcome guest posts from experienced designers and creative professionals. Please check our \"Write for Us\" page for guidelines and submission process."
     },
     {
-      title: "How do you determine your pricing?",
-      content:
-        " Our pricing is based on the complexity of the project, the scope of work involved, and your specific requirements. We'll provide you with a detailed quote before we begin.",
+      question: "What design software do you recommend for beginners?",
+      answer: "For beginners, we often recommend starting with Adobe Photoshop, Illustrator, and InDesign. However, there are also great free alternatives like GIMP, Inkscape, and Canva that can help you get started."
     },
     {
-      title: "What is your payment policy?",
-      content:
-        " We typically require a 75% upfront payment to initiate a project. The remaining balance is due upon completion.",
+      question: "How can I develop my own design style?",
+      answer: "Developing your own style takes time and practice. We recommend exploring different design styles, experimenting with various techniques, and consistently creating personal projects. Our article \"Finding Your Design Voice\" goes into more detail on this topic."
     },
     {
-      title: "How long does a typical project take?",
-      content:
-        "The timeline for a project can vary depending on its size and complexity. We'll provide you with an estimated timeline at the beginning of our engagement.",
+      question: "How do I price my graphic design services?",
+      answer: "Pricing can be tricky. Consider factors like your experience, the project complexity, time required, and market rates. We have a detailed guide on pricing strategies in our \"Freelance Fundamentals\" series."
     },
     {
-      title: " How long have you been in business?",
-      content:
-        " While we are a relatively new agency, our team has years of combined experience in graphic design.",
+      question: "How can I find my first clients as a freelance designer?",
+      answer: "Start by leveraging your network, creating a strong portfolio, and using freelance platforms. You can also consider offering pro bono work for non-profits to build your portfolio. Check out our \"Landing Your First Client\" article for more strategies."
     },
     {
-      title: " How do you support local businesses and artists?",
-      content:
-        "We are committed to empowering local businesses and artists. We offer affordable rates and personalized services to help them establish or elevate their brands.",
-    },
-    {
-      title: "Do you collaborate with other creative professionals?",
-      content:
-        "Yes, we often collaborate with other creative professionals, such as photographers, copywriters, and web developers, to provide comprehensive solutions for our clients.",
-    },
-    {
-      title: "How do you ensure client satisfaction?",
-      content:
-        "We prioritize open communication, transparency, and timely delivery. We strive to exceed your expectations and build long-lasting relationships.",
-    },
+      question: "Do I need a formal education in graphic design to be successful?",
+      answer: "While a formal education can be beneficial, it's not absolutely necessary. Many successful designers are self-taught. What's most important is developing a strong portfolio and continuously improving your skills. We have several articles on self-learning strategies in our \"Education\" category."
+    }
   ];
 
   return (
@@ -68,13 +50,9 @@ const FAQ = () => {
             isCompact
             aria-label="Frequently Asked Questions"
           >
-            {data.map((item, index) => (
-              <AccordionItem
-                key={index}
-                aria-label={item.title}
-                title={item.title}
-              >
-                <p className="text-sm text-start text-neutral-500 mb-2">{item.content}</p>
+           {faqContent.map((item, index) => (
+              <AccordionItem key={index + 1} aria-label={`Question ${index + 1}`} title={item.question}>
+                {item.answer}
               </AccordionItem>
             ))}
           </Accordion>

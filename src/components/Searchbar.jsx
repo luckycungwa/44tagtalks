@@ -9,12 +9,13 @@ const Searchbar = ({ onSearch }) => {
   const handleSearch = async () => {
     if (searchTerm.trim() === "") return; // Prevent empty searches
     try {
-      const searchResults = await searchPosts(searchTerm);
-      onSearch(searchResults); // Pass results back to parent
+      const searchResults = await searchPosts(searchTerm); // Perform search
+      onSearch(searchResults); // Update search results in the parent component
     } catch (error) {
       console.error("Error searching posts:", error);
     }
   };
+  
 
   return (
     <div className="w-full md:w-auto flex gap-2">

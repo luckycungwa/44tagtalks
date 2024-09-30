@@ -70,15 +70,15 @@ export const getCategories = async () => {
 
 export const searchPosts = async (query) => {
   try {
-    const response = await axios.get(`${API_URL}/api/posts/search`, { // Adjusted endpoint
-      params: { search: query }
+    const response = await axios.get(`${API_URL}/api/posts/search`, {
+      params: { search: query },
     });
-    return response.data;
+    return response.data; // Ensure the data structure matches the API response
   } catch (error) {
     console.error('Error searching posts:', error);
     throw error;
   }
-}
+};
 
 
 export const getComments = async (postId) => {

@@ -126,11 +126,14 @@ const Post = () => {
       {/* <Divider /> */}
       <FeaturedPosts />
 
-      <section className="block-image2 text-white object-cover lg:rounded-xl relative md:px-4">
-        <div className="w-full h-full absolute bottom-0 opacity-60 overflow-hidden" />
-
-        <Subscription />
-      </section>
+      {/* Subscription Section */}
+      <div className="flex flex-col gap-2 md:px-32 lg:px-32">
+         <section className="block-image2 text-white object-cover md:rounded-xl relative ">
+            <div className="w-full h-full absolute bottom-0 opacity-60 overflow-hidden" />
+            <Subscription />
+          </section>
+      </div>
+     
       <Divider />
       <section className="flex flex-col gap-4 px-4">
         <FAQSection />
