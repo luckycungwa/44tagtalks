@@ -17,7 +17,7 @@ const Post = () => {
   const [loading, setLoading] = useState(true);
   const [likes, setLikes] = useState(0);
 
-  const postUrl = "https://myblog.com/post-slug";
+  const postUrl = process.env.REACT_APP_API_URL;
   const location = useLocation();
   const passedImageUrl = location.state?.imageUrl;
   const postTitle = { slug };
