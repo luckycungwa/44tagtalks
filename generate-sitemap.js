@@ -6,17 +6,24 @@ const staticRoutes = ["/", "/home", "/blog", "/about", "/contacts", "/faq"];
 
 // Fetch dynamic routes
 async function fetchDynamicRoutes() {
-  try {
-    const response = await axios.get("https://yourapi.com/posts"); // Adjust the endpoint to fetch your blog posts
-    const posts = response.data; // Assuming the API returns an array of posts
+  const allPosts = [];
+  let page = 1;
+  let hasMore = true;
 
-    // Generate post URLs
-    return posts.map((post) => `/post/${post.id}/${post.slug}`);
-  } catch (error) {
-    console.error("Error fetching dynamic routes:", error.message);
-    return [];
+  while (hasMore) {
+    try {
+      const response = await axios.get(`${process.env.API_URL}/api/posts`, { params: { page } });
+      allPosts.push(...response.data.posts); // Assuming `posts` is an array in the response
+      hasMore = response.data.hasMore; // Update based on your API's pagination
+      page++;
+    } catch (error) {
+      console.error("Error fetching posts for page", page, ":", error.message);
+      hasMore = false;
+    }
   }
+  return allPosts.map((post) => `/post/${post.id}/${post.slug}`);
 }
+
 
 // Generate XML Sitemap
 async function generateSitemap() {
@@ -29,7 +36,7 @@ async function generateSitemap() {
 ${allRoutes
   .map((route) => `
   <url>
-    <loc>https://yourwebsite.com${route}</loc>
+    <loc>https://44tagtalks.vercel.app${route}</loc>
     <changefreq>weekly</changefreq>
     <priority>${route === "/" ? "1.0" : "0.8"}</priority>
   </url>`)
