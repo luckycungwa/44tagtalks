@@ -13,8 +13,8 @@ async function fetchDynamicRoutes() {
   while (hasMore) {
     try {
       const response = await axios.get(`${process.env.API_URL}/api/posts`, { params: { page } });
-      allPosts.push(...response.data.posts); // Assuming `posts` is an array in the response
-      hasMore = response.data.hasMore; // Update based on your API's pagination
+      allPosts.push(...response.data.posts); //`posts` is an array in the response
+      hasMore = response.data.hasMore; // Update based on API's pagination
       page++;
     } catch (error) {
       console.error("Error fetching posts for page", page, ":", error.message);
