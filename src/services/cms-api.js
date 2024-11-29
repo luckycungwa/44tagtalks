@@ -18,6 +18,11 @@ export const fetchPosts = async (options = {}) => {
   }
 };
 
+// fetch('https://44tagtalks-server.vercel.app/api/posts?limit=6', {
+//   credentials: 'include',  // This ensures that cookies are sent with the request
+// })
+
+
 // a bit troublesome function to fetch post by id
 export const fetchPostById = async (id) => {
   try {
