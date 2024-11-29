@@ -1,7 +1,7 @@
 // This file is used to fetch data from the API
 import axios from 'axios';
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000'; // Match backend port
+const API_URL = process.env.REACT_APP_API_URL || 'https://44tagtalks-server.vercel.app'; // Match backend port for production
 
 
 export const fetchPosts = async (options = {}) => {

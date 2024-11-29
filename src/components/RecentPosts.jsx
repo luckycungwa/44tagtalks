@@ -68,7 +68,7 @@ const RecentPosts = () => {
       {/* grid card display here */}
       <div className="grid md:grid-cols-4 flex flex-row gap-4 flex-wrap py-4 justify-center items-center">
         {posts.length === 0 ? (
-          <p>No recent posts available.</p>
+          <p className="text-center">No recent posts available.</p>
         ) : (
           posts.map((post) => (
             <PostCard
