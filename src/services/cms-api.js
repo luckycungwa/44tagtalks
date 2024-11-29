@@ -1,7 +1,7 @@
 // This file is used to fetch data from the API
 import axios from 'axios';
 
-const API_URL = process.env.REACT_APP_API_URL || 'https://44tagtalks-server.vercel.app'; // Match backend port for production
+const API_URL = process.env.REACT_APP_API_URL || 'https://four4tagtalks-server.onrender.com'; // Match backend port for production
 
 
 export const fetchPosts = async (options = {}) => {
@@ -18,7 +18,7 @@ export const fetchPosts = async (options = {}) => {
   }
 };
 
-// fetch('https://44tagtalks-server.vercel.app/api/posts?limit=6', {
+// fetch('https://four4tagtalks-server.onrender.com/api/posts?limit=6', {
 //   credentials: 'include',  // This ensures that cookies are sent with the request
 // })
 
