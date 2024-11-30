@@ -38,7 +38,7 @@ const RecentPosts = () => {
   if (!Array.isArray(posts)) {
     if (loading)
       return (
-        <div className="w-full h-auto flex flex-col gap-2 justify-center items-center">
+        <div className="w-full h-auto flex flex-col gap-2 justify-center items-center text-center">
           <Spinner color="default" />
           Loading Recent Posts...
         </div>
@@ -87,7 +87,7 @@ const RecentPosts = () => {
                   : "No content available for this post."
               }
               date={new Date(post.publishDate).toLocaleDateString()}
-              category={post.category?.name || "Uncategorized"}
+              category={post.categories?.name || "Uncategorized"}
               // onClick={() => navigate(`/post${post.slug}`)}
               onClick={() => navigate(`/post/${post.id}${post.slug}`, { state: { imageUrl: `${API_URL}${post.media[0].url}` } })}
             />

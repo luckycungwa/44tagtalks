@@ -87,7 +87,7 @@ const Contacts = () => {
               </h1>
               <p className="font-light ">
                 We'd love to hear from you. Whether it's a collaboration,
-                project, or just a chat, Send us a message and we'll be in
+                project, or just a chat, Send us a message and I'll be in
                 touch.
               </p>
             </div>
@@ -130,9 +130,9 @@ const Contacts = () => {
             <div className="flex flex-col gap-4">
               <h1 className="text-3xl font-bold">Get In Touch</h1>
               <p className="font-light mb-4">
-                44Tag Talks is a division of 44Tag studios and we thrives to deliver the best
+                44Tag Talks is a division of 44Tag studios and I thrives to deliver the best
                 quality content that will empower, inspire, entertain and of course educate. Connect & follow
-                us to keep up with our latest updates.
+                us to keep up with the latest updates.
               </p>
             </div>
             {/* Social media Info */}

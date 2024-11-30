@@ -1,15 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import {
-  Button,
   Card,
   Divider,
   Image,
-  Input,
-  Textarea,
 } from "@nextui-org/react";
-import { FiClock, FiMail, FiPhone } from "react-icons/fi";
-import OurSocials from "../components/OurSocials";
-import { FaWhatsapp } from "react-icons/fa";
 import emailjs from "@emailjs/browser";
 import { toast, Toaster } from "react-hot-toast";
 
@@ -28,7 +22,7 @@ const About = () => {
 
   // Initialize EmailJS with the public key
   useEffect(() => {
-    console.log("Initializing EmailJS with Public Key:", PUBLIC_KEY); // Log the public key
+    // console.log("Initializing EmailJS with Public Key:", PUBLIC_KEY); // Log the public key
     emailjs.init(PUBLIC_KEY);
   }, [PUBLIC_KEY]);
 
@@ -98,37 +92,37 @@ const About = () => {
               </p>
             </div>
             <div className="flex flex-col gap-2 mb-8">
-              <h3>Our Mission </h3>
+              <h3>My Mission </h3>
               <p className="mb-2">
-                At 44Tag Talks, we're on a mission to empower, inspire, and
+                At 44Tag Talks, I am on a mission to empower, inspire, and
                 educate the next generation of graphic designers and creative
                 professionals. We believe in the power of shared knowledge and
-                experiences, and we're here to provide you with the insights,
+                experiences, and I am here to provide you with the insights,
                 tips, and strategies you need to thrive in the ever-evolving
-                world of design.
+                world of tech & design.
               </p>
             </div>
             <div className="flex flex-col gap-2">
               <h3>What We Offer </h3>
               <div className="mb-8 flex flex-col gap-2">
                 <p>
-                  Our blog is a treasure trove of content designed to help you
+                  My blog is a treasure trove of content designed to help you
                   navigate the exciting but often challenging landscape of
                   graphic design and freelancing:
                 </p>
                 <ul className="flex flex-col gap-2">
                   <li>
-                    <b>Industry Insights</b>: Stay ahead of the curve with our
+                    <b>Industry Insights:</b> Stay ahead of the curve with my
                     analysis of the latest trends and technologies shaping the
                     design world.
                   </li>
                   <li>
                     <b>Freelancing Tips:</b> From landing your first client to
-                    scaling your brand/ business, we share practical advice for
+                    scaling your brand/ business, I share practical advice for
                     freelance success.
                   </li>
                   <li>
-                    <b> Design Tutorials:</b> Enhance your skills with our
+                    <b> Design Tutorials:</b> Enhance your skills with my
                     step-by-step guides and video tutorials covering various
                     design techniques and software.
                   </li>
@@ -145,12 +139,12 @@ const About = () => {
                 </ul>
               </div>
               <div className="flex flex-col gap-2 mb-8">
-                <h3>Join Our Community</h3>
+                <h3>Join My Community</h3>
                 <p>
-                  We're more than just a blog – we're a community of passionate
+                  It's more than just a blog – It's a community of passionate
                   creatives. By subscribing to 44Tag Talks, you're not just
                   getting access to great content; you're becoming part of a
-                  supportive network of fellow designers and entrepreneurs.
+                  supportive network of fellow designers, creatives and entrepreneurs.
                 </p>
               </div>
               <div className="flex flex-col gap-2">

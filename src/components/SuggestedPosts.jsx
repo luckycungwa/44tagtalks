@@ -38,7 +38,7 @@ const SuggestedPosts = ({ max }) => {
   if (!Array.isArray(posts)) {
     if (loading)
       return (
-        <div className="w-full h-full flex flex-col gap-2 justify-center items-center">
+        <div className="w-full h-auto flex flex-col gap-2 justify-center items-center text-center">
           <Spinner color="default" />
           Loading Suggested Posts...
         </div>

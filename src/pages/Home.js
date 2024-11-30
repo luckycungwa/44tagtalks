@@ -47,7 +47,7 @@ const Home = () => {
               <span className="text-[#ff4b14] hover:opacity-0">.</span>
             </p>
           }
-          description="A 44tag studios blog dedicated to bringing the relevant modern content to you. Join us on our journey as we continue to build and grow."
+          description="A 44tag studios blog dedicated to bringing the relevant modern content to you. Join us on my journey as I continue to build and grow."
           buttonText={isLoading ? <Spinner color="default" size="sm" /> : "Subscribe"}
           onClick={handleSubscription}
           disabled={isLoading}

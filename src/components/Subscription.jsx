@@ -5,10 +5,10 @@ const Subscription = () => {
   return (
     <div className="py-16 px-4 text-center">
       <h1 className=" text-white text-3xl font-bold tracking-wider uppercase mb-4">
-        Subscribe to our newsletter
+        Subscribe to my newsletter
       </h1>
       <p className="text-gray-200 mb-8">
-        Stay up-to-date with our latest news and updates.
+        Stay up-to-date with my latest news and updates.
       </p>
 
       <form className="flex justify-center items-center gap-4">

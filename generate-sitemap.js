@@ -4,7 +4,7 @@ const axios = require("axios");
 // Define static routes
 const staticRoutes = ["/", "/home", "/blog", "/about", "/contacts", "/faq"];
 
-const API_URL = process.env.REACT_APP_API_URL || "https://four4tagtalks-server.onrender.com/api";
+const API_URL = process.env.REACT_APP_API_URL || "https://four4tagtalks-server.onrender.com";
 
 // Fetch dynamic routes
 async function fetchDynamicRoutes() {

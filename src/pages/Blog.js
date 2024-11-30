@@ -25,7 +25,9 @@ const Blog = () => {
   const postsPerPage = 16; // Number of posts per page
   const navigate = useNavigate();
 
-  const API_URL = process.env.REACT_APP_API_URL || "https://four4tagtalks-server.onrender.com/api";
+  const API_URL =
+    process.env.REACT_APP_API_URL ||
+    "https://four4tagtalks-server.onrender.com/api";
 
   // Fetch posts from API
   useEffect(() => {
@@ -33,7 +35,7 @@ const Blog = () => {
       try {
         setLoading(true);
         const data = await fetchPosts({
-          page: currentPage, 
+          page: currentPage,
           limit: postsPerPage,
         });
         setPosts(data.docs);
@@ -55,11 +57,10 @@ const Blog = () => {
     setFilteredPosts(results); // Update filtered posts with search results
     setCurrentPage(1); // Reset to the first page after search
   };
-  
 
-// Handle category filtering
-const handleCategoryFilter = (categoryId) => {
-  setSelectedCategory(categoryId);
+  // Handle category filtering
+  const handleCategoryFilter = (categoryId) => {
+    setSelectedCategory(categoryId);
     if (categoryId === "all") {
       setFilteredPosts(posts); // Show all posts if "All" is selected
     } else {
@@ -67,15 +68,15 @@ const handleCategoryFilter = (categoryId) => {
         posts.filter((post) => post.categories.id === categoryId)
       );
     }
-  setCurrentPage(1); // Reset to first page after filter
-
-};
-
+    setCurrentPage(1); // Reset to first page after filter
+  };
 
   return (
     <>
       {loading ? (
-        <Spinner />
+        <div className="w-full h-auto flex flex-col gap-2 justify-center items-center text-center">
+          <Spinner color="default"/>
+        </div>
       ) : error ? (
         <p>{error}</p>
       ) : (
@@ -107,15 +108,31 @@ const handleCategoryFilter = (categoryId) => {
                 key={`${post.id}-${post.slug}`}
                 id={post.id}
                 slug={post.slug}
-                imageUrl={post.media && post.media[0] ? `${API_URL}${post.media[0].url}` : '/default-image.jpg'}
+                imageUrl={
+                  post.media && post.media[0]
+                    ? `${API_URL}${post.media[0].url}`
+                    : "/default-image.jpg"
+                }
                 title={post.title}
-                subtitle={post.body && post.body.length ? post.body.map((paragraph) => (
-                  <span key={paragraph.id}>
-                    {paragraph.children ? paragraph.children.map((child) => child.text).join("") : ""}
-                  </span>
-                )) : 'No content available'}
+                subtitle={
+                  post.body && post.body.length
+                    ? post.body.map((paragraph) => (
+                        <span key={paragraph.id}>
+                          {paragraph.children
+                            ? paragraph.children
+                                .map((child) => child.text)
+                                .join("")
+                            : ""}
+                        </span>
+                      ))
+                    : "No content available"
+                }
                 date={new Date(post.publishDate).toLocaleDateString()}
-                category={post.categories && post.categories.name ? post.categories.name : "Uncategorized"}
+                category={
+                  post.categories && post.categories.name
+                    ? post.categories.name
+                    : "Uncategorized"
+                }
                 onClick={() =>
                   navigate(`/post/${post.id}${post.slug}`, {
                     state: { imageUrl: `${API_URL}${post.media[0].url}` },
@@ -140,7 +157,7 @@ const handleCategoryFilter = (categoryId) => {
             <div className="w-full h-full absolute bottom-0 opacity-60 overflow-hidden" />
             <Subscription />
           </section>
-          
+
           <ScrollToTop />
         </div>
       )}

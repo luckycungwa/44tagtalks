@@ -23,6 +23,13 @@ const Footer = () => {
           >
             Privacy
           </Link>
+          <Link
+            to="https://44tagstudios.vercel.app/"
+            prefetch={false ? "true" : undefined}
+            className="text-xs hover:underline underline-offset-4"
+          >
+            Designed by 44Tag Studi<span className="text-[#ff4b14]">o</span>"s
+          </Link>
         </nav>
       </footer>
     </div>

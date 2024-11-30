@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 
 const OurSocials = () => {
   const Socials = [
-    // our social media includes facebook, Twitter/X, Tiktok, and Instagram
+    // my social media includes facebook, Twitter/X, Tiktok, and Instagram
     {
       id: 1,
       name: "Facebook",

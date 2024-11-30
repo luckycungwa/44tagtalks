@@ -34,8 +34,8 @@ const FAQPage = () => {
                       src={"https://assets.lummi.ai/assets/QmU42UCUCEpeNkzHN4yMfavf96x9ixBgtxvbjc4GJkqj6R?auto=format&w=1500"}
                     />
                     <p className="text-xs text-start text-black/50 hidden md:block">
-                      Got questions about our services, products, or anything
-                      else? We're here to help.{" "}
+                      Got questions about the services, products, or anything
+                      else? I am here to help.{" "}
                       <a href="/contacts" className="underline text-[#ff4b14]">
                         Get in touch
                       </a>
