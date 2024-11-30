@@ -4,6 +4,8 @@ const axios = require("axios");
 // Define static routes
 const staticRoutes = ["/", "/home", "/blog", "/about", "/contacts", "/faq"];
 
+const API_URL = process.env.REACT_APP_API_URL || "https://four4tagtalks-server.onrender.com/api";
+
 // Fetch dynamic routes
 async function fetchDynamicRoutes() {
   const allPosts = [];
@@ -12,7 +14,7 @@ async function fetchDynamicRoutes() {
 
   while (hasMore) {
     try {
-      const response = await axios.get(`${process.env.API_URL}/api/posts`, { params: { page } });
+      const response = await axios.get(`${API_URL}/api/posts`, { params: { page } });
       allPosts.push(...response.data.posts); //`posts` is an array in the response
       hasMore = response.data.hasMore; // Update based on API's pagination
       page++;

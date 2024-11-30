@@ -25,7 +25,7 @@ const Blog = () => {
   const postsPerPage = 16; // Number of posts per page
   const navigate = useNavigate();
 
-  const API_URL = process.env.REACT_APP_API_URL || "http://localhost:3000/api";
+  const API_URL = process.env.REACT_APP_API_URL || "https://four4tagtalks-server.onrender.com/api";
 
   // Fetch posts from API
   useEffect(() => {

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000/api'; // Match backend port
+const API_URL = process.env.REACT_APP_API_URL || 'https://four4tagtalks-server.onrender.com/api'; // Match backend port
 
 const getToken = () => localStorage.getItem('userToken');
 
