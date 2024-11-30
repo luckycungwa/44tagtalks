@@ -36,8 +36,9 @@ const Navigationbar = () => {
   };
 
   return (
-    <header>
-    <Navbar isBordered  isMenuOpen={isMenuOpen} onMenuOpenChange={setIsMenuOpen} className="w-full ">
+    //  Header with role="banner" for accessibility 
+  <header role="banner">
+    <Navbar isBordered  isMenuOpen={isMenuOpen} onMenuOpenChange={setIsMenuOpen} className="w-full h-auto ">
       <NavbarContent justify="start">
         <NavbarMenuToggle
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
