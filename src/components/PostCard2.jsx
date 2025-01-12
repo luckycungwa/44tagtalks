@@ -27,7 +27,7 @@ const PostCard2 = ({ imageUrl, title, subtitle, date,}) => {
       </CardBody>
       <CardHeader className="pb-0 pt-2 px-4 flex-col items-start justify-between flex-col text-start">
         <h4 className="font-bold text-large">{title}</h4>
-        <p className="text-tiny uppercase truncate-text2">{subtitle}</p>
+        <p className="text-tiny uppercase truncate-text2  opacity-80">{subtitle}</p>
         <div className="flex justify-between w-full">
           <p className="text-tiny">{date}</p>
         </div>

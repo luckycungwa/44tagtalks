@@ -89,7 +89,7 @@ const RecentPosts = () => {
               date={new Date(post.publishDate).toLocaleDateString()}
               category={post.categories?.name || "Uncategorized"}
               // onClick={() => navigate(`/post${post.slug}`)}
-              onClick={() => navigate(`/post/${post.id}${post.slug}`, { state: { imageUrl: `${API_URL}${post.media[0].url}` } })}
+              onClick={() => navigate(`/post/${post.id}/${post.slug}`, { state: { imageUrl: `${API_URL}${post.media[0].url}` } })}
             />
           ))
         )}

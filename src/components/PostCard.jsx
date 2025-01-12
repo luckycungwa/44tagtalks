@@ -22,7 +22,7 @@ const PostCard = ({ imageUrl, title, subtitle, date, category, onClick }) => {
       </CardBody>
       <div className=" px-4 flex-col items-start justify-between flex w-full h-full">
         <h4 className="font-bold truncate-text2 w-full flex-wrap ">{title}</h4>
-        <p className="text-xs font-light truncate-text3 ">{subtitle}</p>
+        <p className="text-xs font-light truncate-text3 opacity-80 ">{subtitle}</p>
         <div className="flex justify-between w-full items-center mt-2">
           <p className="text-tiny font-light">{date}</p>
           <CategoryChip title={category} />

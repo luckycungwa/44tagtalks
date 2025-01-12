@@ -134,7 +134,7 @@ const Blog = () => {
                     : "Uncategorized"
                 }
                 onClick={() =>
-                  navigate(`/post/${post.id}${post.slug}`, {
+                  navigate(`/post/${post.id}/${post.slug}`, {
                     state: { imageUrl: `${API_URL}${post.media[0].url}` },
                   })
                 }
