@@ -31,7 +31,7 @@ const FAQPage = () => {
                     <img
                       className="FAQImage"
                       alt="FAQ Abstract cover"
-                      src={"https://assets.lummi.ai/assets/QmU42UCUCEpeNkzHN4yMfavf96x9ixBgtxvbjc4GJkqj6R?auto=format&w=1500"}
+                      src={"url('/default.jpeg')" || "https://assets.lummi.ai/assets/QmU42UCUCEpeNkzHN4yMfavf96x9ixBgtxvbjc4GJkqj6R?auto=format&w=1500"}
                     />
                     <p className="text-xs text-start text-black/50 hidden md:block">
                       Got questions about the services, products, or anything

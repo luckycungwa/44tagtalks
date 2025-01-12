@@ -36,8 +36,7 @@ const PostCardLite = ({
           alt={title +" background cover"}
           className="z-0 flex w-auto max:h-full  object-cover"
           src={
-            imageUrl ||
-            "https://assets.lummi.ai/assets/QmYCNnEiMk2Y4HzJaQ2n6gyNt27HCYuwBUCtBAKMcx7ZvW?auto=format&w=1500"
+            imageUrl || "url('/default.jpeg')"
           }
         />
       </CardBody>

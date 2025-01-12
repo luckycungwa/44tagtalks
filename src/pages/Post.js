@@ -77,7 +77,7 @@ const Post = () => {
           />
         ) : (
           <img
-            src="https://assets.lummi.ai/assets/Qmc36vhvzVXLr7c2TvCYmxfm5qTSzUyR8EAfMfF776tDFk?auto=format&w=1500"
+            src={"url('/default.jpeg')" || "https://assets.lummi.ai/assets/Qmc36vhvzVXLr7c2TvCYmxfm5qTSzUyR8EAfMfF776tDFk?auto=format&w=1500"}
             alt={post.title + " post background"}
             className="w-full object-cover post-hero-img"
           />

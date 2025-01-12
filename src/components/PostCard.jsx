@@ -16,7 +16,7 @@ const PostCard = ({ imageUrl, title, subtitle, date, category, onClick }) => {
         <img
           alt={`${title} background cover`}
           className="bg-gray-200 text-gray-400 flex justify-center align-center items-center w-full h-full object-cover rounded-xl text-tiny text-center "
-          src={imageUrl || "https://assets.lummi.ai/assets/Qme2XFr9GsrJFzsKaHDQxgmXDK57HCJEvt3PuW4YJs9aKT?auto=format&w=1500"}
+          src={imageUrl || "url('/default.jpeg')"}
           // width={180}
         />
       </CardBody>

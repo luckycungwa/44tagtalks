@@ -21,7 +21,7 @@ const PostCard2 = ({ imageUrl, title, subtitle, date,}) => {
         <Image
           alt="Card background"
           className="object-cover rounded-xl"
-          src={imageUrl}
+          src={imageUrl || "url('/default.jpeg')"}
           width={270}
         />
       </CardBody>

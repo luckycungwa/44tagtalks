@@ -79,8 +79,7 @@ const About = () => {
           <Image
             className="FAQImage object-cover"
             alt="FAQ Abstract cover"
-            src={
-              "https://assets.lummi.ai/assets/QmRzTnsZFsboKZnxBVGpiZQnhFyhs1JGazPdaYPPrEPi8w?auto=format&w=1500"
+            src={"url('/default.jpeg')" || "https://assets.lummi.ai/assets/QmRzTnsZFsboKZnxBVGpiZQnhFyhs1JGazPdaYPPrEPi8w?auto=format&w=1500"
             }
           />
           <div className="">
