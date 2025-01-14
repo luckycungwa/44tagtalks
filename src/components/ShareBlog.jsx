@@ -1,18 +1,16 @@
 import React, { useState } from "react";
-import { Button, Divider } from "@nextui-org/react";
+import { Button } from "@nextui-org/react";
 import {
   FiFacebook,
   FiTwitter,
-  FiInstagram,
   FiCopy,
   FiCheck,
   FiLinkedin,
 } from "react-icons/fi";
-import { FaTiktok, FaWhatsapp } from "react-icons/fa";
+import { FaWhatsapp } from "react-icons/fa";
 import {
   FacebookShareButton,
   TwitterShareButton,
-  TelegramShareButton,
   WhatsappShareButton,
   LinkedinShareButton,
 } from "react-share";
@@ -34,36 +32,37 @@ const ShareButton = ({ url, title }) => {
       name: "Facebook",
       icon: <FiFacebook size={16} />,
       Button: FacebookShareButton,
+      props: { url, quote: title }
     },
     {
       id: 2,
       name: "Twitter",
       icon: <FiTwitter size={16} />,
       Button: TwitterShareButton,
+      props: { url, title }
     },
     {
       id: 3,
       name: "LinkedIn",
       icon: <FiLinkedin size={16} />,
-      Button: LinkedinShareButton, 
+      Button: LinkedinShareButton,
+      props: { url, title }
     },
     {
       id: 4,
       name: "WhatsApp",
       icon: <FaWhatsapp size={16} />,
       Button: WhatsappShareButton,
+      props: { url, title }
     },
   ];
 
   return (
-    <div className="">
+    <div className="w-full">
       <div className="flex flex-col w-full h-auto justify-between items-center py-4">
-        
         <div className="flex gap-2 items-center">
-          {/* <p className="text-sm text-gray-400">Share</p> */}
-         
           {Socials.map((social) => (
-            <social.Button key={social.id} url={url} title={title}>
+            <social.Button key={social.id} {...social.props}>
               <Button
                 variant="bordered"
                 color="default"
@@ -76,6 +75,7 @@ const ShareButton = ({ url, title }) => {
             </social.Button>
           ))}
           <Button
+            onClick={handleCopy}
             variant="bordered"
             color="default"
             isIconOnly

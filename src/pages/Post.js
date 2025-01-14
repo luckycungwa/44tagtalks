@@ -33,8 +33,8 @@ const Post = () => {
       const fetchPost = async () => {
         try {
           const data = await fetchPostById(id);
-          console.log(`Fetched post slug: ${data.slug}`); // Log fetched post slug
-          console.log(`URL slug: ${slug}`); // Log slug from URL
+          // console.log(`Fetched post slug: ${data.slug}`); // Log fetched post slug
+          // console.log(`URL slug: ${slug}`); // Log slug from URL
     
           // Normalize both slugs by removing leading and trailing slashes
           const normalizedFetchedSlug = data.slug.replace(/^\/|\/$/g, '');
@@ -73,13 +73,13 @@ const Post = () => {
           <img
             src={imageUrl} // Use the media URL from the post
             alt={post.media[0].alt || post.title + " background cover"}
-            className="w-full object-cover post-hero-img"
+            className="w-full object-cover post-hero-img text-center"
           />
         ) : (
           <img
-            src={"url('/default.jpeg')" || "https://assets.lummi.ai/assets/Qmc36vhvzVXLr7c2TvCYmxfm5qTSzUyR8EAfMfF776tDFk?auto=format&w=1500"}
+            src={"url('/default.jpeg')"}
             alt={post.title + " post background"}
-            className="w-full object-cover post-hero-img"
+            className="w-full object-cover post-hero-img text-center"
           />
         )}
         <div className="post-hero-content w-[90%] min-h-[30%] max-h-[40%] md:max-h-[80%] md:max-w-[84%] flex flex-col justify-center items-center px-4 py-6">
