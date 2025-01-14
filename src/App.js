@@ -33,7 +33,9 @@ function App() {
     <ErrorBoundary>
       <AuthProvider>
         <Router>
+        <ScrollToTop />
           <Navigationbar />
+          
           <div className="mx-auto">
             <Suspense fallback={<div className="flex justify-center items-center text-center">Loading...</div>}>
               <Routes>
