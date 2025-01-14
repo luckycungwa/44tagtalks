@@ -27,7 +27,7 @@ const Post = () => {
   // Access the image URL from the location state
   const imageUrl =
     passedImageUrl ||
-    (post?.media?.[0]?.url ? `${API_URL}${post.media[0].url}` : "fallback-url");
+    (post?.media?.[0]?.url ? `${API_URL}${post.media[0].url}` : "url('/default.jpeg')");
 
     useEffect(() => {
       const fetchPost = async () => {

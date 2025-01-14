@@ -59,7 +59,7 @@ const SuggestedPosts = ({ max }) => {
       {/* grid card display here */}
       <div className="w-full flex gap-8 flex-wrap py-4 justify-around items-start">
       {posts.length === 0 ? (
-          <p>No suggested posts available.</p>
+          <p className="w-full">No suggested posts available.</p>
         ) : (posts.map((post) => (
           <PostCardLite
             key={post.id}

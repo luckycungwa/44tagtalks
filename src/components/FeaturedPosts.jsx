@@ -61,7 +61,7 @@ const FeaturedPosts = () => {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 sm:grid-cols-2 flex flex-row gap-4 flex-wrap py-4 justify-center items-start">
           {posts.length === 0 ? (
-            <p className="w-full text-center">No featured posts available.</p>
+            <p className="w-full ">Loading Featured Posts...</p>
           ) : (
             posts.map((post) => (
               <FeaturePostCard
